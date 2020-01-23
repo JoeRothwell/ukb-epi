@@ -1,6 +1,10 @@
-# R program ukb33929.tab created 2019-11-06 by ukb2r.cpp Mar 14 2018 16:01:22
+# This dataset is not needed since the same variables and more are in 37027
 
-bd <- read.table("C:\\Users\\Rothwell\\Downloads\\UKB\\ukb33929.tab", header=TRUE, sep="\t")
+# R program ukb33929.tab created 2019-11-06 by ukb2r.cpp Mar 14 2018 16:01:22
+library(tidyverse)
+#bd <- read.table("C:\\Users\\Rothwell\\Downloads\\UKB\\ukb_R\\ukb33929.tab", header=TRUE, sep="\t")
+bd <- read_tsv("C:\\Users\\Rothwell\\Downloads\\UKB\\ukb_R\\ukb33929.tab")
+
 lvl.100402 <- c(-3,1,2,3,4,5,6)
 lbl.100402 <- c("Prefer not to answer","Daily or almost daily","Three or four times a week","Once or twice a week","One to three times a month","Special occasions only","Never")
 bd$f.1558.0.0 <- ordered(bd$f.1558.0.0, levels=lvl.100402, labels=lbl.100402)
@@ -125,3 +129,6 @@ lbl.0090 <- c("Prefer not to answer","Never","Previous","Current")
 bd$f.20117.0.0 <- ordered(bd$f.20117.0.0, levels=lvl.0090, labels=lbl.0090)
 bd$f.20117.1.0 <- ordered(bd$f.20117.1.0, levels=lvl.0090, labels=lbl.0090)
 bd$f.20117.2.0 <- ordered(bd$f.20117.2.0, levels=lvl.0090, labels=lbl.0090)
+
+ukb33929 <- bd
+rm(bd)

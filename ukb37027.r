@@ -1,6 +1,7 @@
 # R program ukb37027.tab created 2019-11-07 by ukb2r.cpp Mar 14 2018 16:01:22
-
-bd <- read.table("C:\\Users\\Rothwell\\Downloads\\UKB\\ukb37027.tab", header=TRUE, sep="\t")
+library(tidyverse)
+#bd <- read_tsv("C:\\Users\\Rothwell\\Downloads\\UKB\\ukb_R\\ukb37027.tab", header=TRUE, sep="\t")
+bd <- read_tsv("C:\\Users\\Rothwell\\Downloads\\UKB\\ukb_R\\ukb37027.tab")
 lvl.100402 <- c(-3,1,2,3,4,5,6)
 lbl.100402 <- c("Prefer not to answer","Daily or almost daily","Three or four times a week","Once or twice a week","One to three times a month","Special occasions only","Never")
 bd$f.1558.0.0 <- ordered(bd$f.1558.0.0, levels=lvl.100402, labels=lbl.100402)
@@ -148,3 +149,6 @@ bd$f.20117.0.0 <- ordered(bd$f.20117.0.0, levels=lvl.0090, labels=lbl.0090)
 bd$f.20117.1.0 <- ordered(bd$f.20117.1.0, levels=lvl.0090, labels=lbl.0090)
 bd$f.20117.2.0 <- ordered(bd$f.20117.2.0, levels=lvl.0090, labels=lbl.0090)
 bd$f.20117.3.0 <- ordered(bd$f.20117.3.0, levels=lvl.0090, labels=lbl.0090)
+
+ukb37027 <- bd
+rm(bd)
