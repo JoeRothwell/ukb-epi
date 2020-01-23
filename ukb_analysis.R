@@ -66,18 +66,18 @@ ukb$pa5cat <- pameds[as.factor(ukb$pa_met_cats)]
 library(survival)
 survobj <- Surv(time = ukb$age_recr, time2 = ukb$age_exit_frst, event = ukb$colorectal_inc)
 
-base <- survobj ~ diabet + fh_crc + alc_freq + smoke_intensity + qualif + redprocmeat_cat + 
-          aspibu_use + ever_horm + height_m + pa_met_cats + strata(sex, agecat, q5town, region)
+# Base model
+fit0 <- coxph(survobj ~ pa_met_cats + height_m + alc_freq + bmi + 
+                smoke_intensity + redprocmeat_cat + fh_crc + qualif + aspibu_use + ever_horm + 
+                diabet + strata(sex, agecat, q5town, region), data = ukb)
 
 # Run models. 3 observations have exit time < start time. Order roughly by significance of co-variates
 # All subjects, female only, male only, normal, overweight, obese.
-
-fit0 <- coxph(update(base, .~. + bmi), data = ukb)
-fit1 <- coxph(update(base, .~. + bmi), data = ukb, subset = sex == 0)
-fit2 <- coxph(update(base, .~. + bmi), data = ukb, subset = sex == 1)
-fit3 <- coxph(base,                    data = ukb, subset = bmi == 2)
-fit4 <- coxph(base,                    data = ukb, subset = bmi == 3)
-fit5 <- coxph(base,                    data = ukb, subset = bmi == 4)
+fit1 <- update(fit0, subset = sex == 0)
+fit2 <- update(fit0, subset = sex == 1)
+fit3 <- update(fit0, ~. - bmi, subset = bmi == 2)
+fit4 <- update(fit0, ~. - bmi, subset = bmi == 3)
+fit5 <- update(fit0, ~. - bmi, subset = bmi == 4)
 
 library(broom)
 t1 <- map_df(list(fit0, fit1, fit2, fit3, fit4, fit5), tidy) %>% filter(term == "diabet1")
@@ -85,14 +85,13 @@ t1 <- map_df(list(fit0, fit1, fit2, fit3, fit4, fit5), tidy) %>% filter(term == 
 library(metafor)
 par(mar=c(5,4,2,2))
 forest(t1$estimate, ci.lb = t1$conf.low, ci.ub = t1$conf.high,
-       refline = 1, xlab = "Hazard ratio (per unit increase in score)", pch = 18, 
+       refline = 1, xlab = "Hazard ratio diabetic compared to non-diabetic reference", pch = 18, 
        transf = exp, psize = 1.5, 
-       slab = c("All", "Female", "Male", "Normal", "Overweight", "Obese")) 
-#ilab = studies[, 2:3], 
-#rows = c(1:3, 5:7, 9:11),
-#ylim = c(0, 14),
-#ilab.pos = 4, ilab.xpos = c(-0.8, -0.6), 
-#xlim = c(-1.2, 2))
+       slab = c("All", "Female", "Male", "Normal", "Overweight", "Obese"))
+hh <- par("usr")
+text(hh[1], 8, "Group", pos = 4)
+text(hh[2], 8, "HR [95% CI]", pos = 2)
+
 
 summary(fit0)
 
