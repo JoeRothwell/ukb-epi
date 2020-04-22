@@ -1,6 +1,7 @@
 # R program ukb37026.tab created 2019-11-06 by ukb2r.cpp Mar 14 2018 16:01:22
-
-bd <- read.table("C:\\Users\\Rothwell\\Downloads\\UKB\\ukb37026.tab", header=TRUE, sep="\t")
+library(tidyverse)
+#bd <- read.table("C:\\Users\\Rothwell\\Downloads\\UKB\\ukb_R\\ukb37026.tab", header=TRUE, sep="\t")
+bd <- read_tsv("C:\\Users\\Rothwell\\Downloads\\UKB\\ukb_R\\ukb37026.tab")
 lvl.0009 <- c(0,1)
 lbl.0009 <- c("Female","Male")
 bd$f.31.0.0 <- ordered(bd$f.31.0.0, levels=lvl.0009, labels=lbl.0009)
@@ -736,3 +737,6 @@ lvl.100693 <- c(0,1,2)
 lbl.100693 <- c("No response","Partial","Completed")
 bd$f.110005.0.0 <- ordered(bd$f.110005.0.0, levels=lvl.100693, labels=lbl.100693)
 bd$f.110006.0.0 <- as.Date(bd$f.110006.0.0)
+
+ukb37026 <- bd
+rm(bd)
