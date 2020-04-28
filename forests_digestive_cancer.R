@@ -19,7 +19,7 @@ par(mfrow=c(1,4))
 # Plot for rownames
 par(mar=c(5,0,0,1))
 plot(1, type="n", axes = F, ann = F, ylim=c(0,35), xlim = c(0,10))
-text(3, rows.lev1, labs.lev1, cex = 1.2, pos = 4)
+text(3, rows.lev1, labs.lev1, cex = 1.2, pos = 4, font = 2)
 text(4, rows.lev2, labs.lev2, cex = 1.2, pos = 4)
 text(5, rows.lev3, labs.lev3, cex = 1.2, pos = 4)
 abline(h = 33)
@@ -42,52 +42,44 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsi
        slab = NA, pch = 18, xlim = c(0.5, 4), cex.lab = 0.8, header = "Rectal")
 
 
-# Oesophageal cancer
-par(mfrow=c(1,3))
+# Oesophageal and stomach cancer
+par(mfrow=c(1,5))
 
 # Plot for rownames
 par(mar=c(5,0,0,1))
-plot(1, type="n", axes = F, ann = F, ylim=c(0,32), xlim = c(0,10))
-text(2, rows.lev1, labs.lev1, cex = 1.2, pos = 4)
-text(4, rows.lev2, labs.lev2, cex = 1.2, pos = 4)
-text(6, rows.lev3, labs.lev3, cex = 1.2, pos = 4)
-abline(h = 30)
+plot(1, type="n", axes = F, ann = F, ylim=c(0,35), xlim = c(0,10))
+text(2, rows.lev1, labs.lev1, cex = 1.2, pos = 4, font = 2)
+text(3, rows.lev2, labs.lev2, cex = 1.2, pos = 4)
+text(4, rows.lev3, labs.lev3, cex = 1.2, pos = 4)
+abline(h = 33)
 
 # Plot points with no rownames
 library(metafor)
 par(mar=c(5,0,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "oesophad_inc",
        refline=1, efac = 0, rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", header = "Adenocarcinoma",
-       psize= 1.5, cex=1.2, slab = NA, pch = 18, xlim = c(0.8, 5), cex.lab = 0.8)
+       psize= 1.5, cex=1.2, slab = NA, pch = 18, xlim = c(0.8, 6), 
+       cex.lab = 0.8)
 
+# efac in combination with alim gives arrow 
 par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "oesophsq_inc",
-       refline=1, efac = 0, rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", psize= 1.5, cex=1.2, 
-       slab = NA, pch = 18, xlim = c(0.8, 9), cex.lab = 0.8, header = "Squamous")
+       refline=1, efac = c(0,1), 
+       rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", psize= 1.5, cex=1.2, 
+       slab = NA, pch = 18, xlim = c(0.8, 8), alim = c(0, 3),
+       cex.lab = 0.8, header = "Squamous")
 
-
-# Stomach cancer
-par(mfrow=c(1,3))
-
-# Plot for rownames
-par(mar=c(5,0,0,1))
-plot(1, type="n", axes = F, ann = F, ylim=c(0,32), xlim = c(0,10))
-text(3, rows.lev1, labs.lev1, cex = 1.2, pos = 4)
-text(4, rows.lev2, labs.lev2, cex = 1.2, pos = 4)
-text(5, rows.lev3, labs.lev3, cex = 1.2, pos = 4)
-abline(h = 30)
-abline(h = 27)
-
-# Plot points with no rownames
 par(mar=c(5,0,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "cardstomach_inc",
-       refline=1, efac = 0, rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", header = "Cardia",
-       psize= 1.5, cex=1.2, slab = NA, pch = 18, xlim = c(0.8, 5), cex.lab = 0.8)
+       refline=1, efac = c(0,1), rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", header = "Cardia",
+       psize= 1.5, cex=1.2, slab = NA, pch = 18, xlim = c(0.8, 10),  alim = c(0,4),
+       cex.lab = 0.8)
 
 par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "noncardstomach_inc",
-       refline=1, efac = 0, rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", psize= 1.5, cex=1.2, 
-       slab = NA, pch = 18, xlim = c(0.8, 9), cex.lab = 0.8, header = "Non-cardia")
+       refline=1, efac = c(0, 1), rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", psize= 1.5, cex=1.2, 
+       slab = NA, pch = 18, xlim = c(0.8, 11), alim = c(0,4),
+       cex.lab = 0.8, header = "Non-cardia")
 
 
 # HCC, pancreatic, bile duct
@@ -95,27 +87,39 @@ par(mfrow=c(1,4))
 
 # Plot for rownames
 par(mar=c(5,0,0,1))
-plot(1, type="n", axes = F, ann = F, ylim=c(0,32), xlim = c(0,10))
-text(3, rows.lev1, labs.lev1, cex = 1.2, pos = 4)
-text(4, rows.lev2, labs.lev2, cex = 1.2, pos = 4)
-text(5, rows.lev3, labs.lev3, cex = 1.2, pos = 4)
-abline(h = 30)
-abline(h = 27)
+plot(1, type="n", axes = F, ann = F, ylim=c(0,35), xlim = c(0,10))
+text(2, rows.lev1, labs.lev1, cex = 1.2, pos = 4, font = 2)
+text(3, rows.lev2, labs.lev2, cex = 1.2, pos = 4)
+text(4, rows.lev3, labs.lev3, cex = 1.2, pos = 4)
+abline(h = 33)
 
 # Plot points with no rownames
 par(mar=c(5,0,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "hcc_inc",
-       refline=1, efac = 0, rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", header = "HCC",
-       psize= 1.5, cex=1.2, slab = NA, pch = 18, xlim = c(0.8, 2.5), cex.lab = 0.8)
+       refline=1, efac = c(0, 1), rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", header = "HCC",
+       psize= 1.5, cex=1.2, slab = NA, pch = 18, xlim = c(0.8, 15), alim = c(0,7),
+       cex.lab = 0.8)
 
 par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "pancreas_inc",
        refline=1, efac = 0, rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", psize= 1.5, cex=1.2, 
-       slab = NA, pch = 18, xlim = c(0.8, 3), cex.lab = 0.8, header = "Pancreas")
+       slab = NA, pch = 18, xlim = c(0.8, 6), 
+       cex.lab = 0.8, header = "Pancreas")
 
 par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "ibdc_inc",
        refline=1, efac = 0, rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", psize= 1.5, cex=1.2, 
-       slab = NA, pch = 18, xlim = c(0.5, 4), cex.lab = 0.8, header = "Bile duct")
+       slab = NA, pch = 18, xlim = c(0.5, 12), cex.lab = 0.8, header = "Bile duct")
 
 
+# All digestive
+par(mar=c(5,0,0,1))
+forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "digestive_inc",
+       refline=1, efac = c(0, 1), rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", header = "All digestive",
+       psize= 1.5, cex=0.8, slab = NA,
+       pch = 18, #xlim = c(0.8, 15), alim = c(0,7),
+       cex.lab = 0.8)
+
+text(-0.10, rows.lev1, labs.lev1, cex = 0.8, pos = 4, font = 2)
+text(0, rows.lev2, labs.lev2, cex = 0.8, pos = 4)
+text(0.1, rows.lev3, labs.lev3, cex = 0.8, pos = 4)
