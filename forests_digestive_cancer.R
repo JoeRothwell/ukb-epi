@@ -95,7 +95,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsi
 # Save as a pdf, portrait, 10 x 7.35 in
 
 
-# HCC, pancreatic, bile duct
+# HCC, pancreatic, IBDC
 par(mfrow=c(1,4))
 
 # Plot for rownames
@@ -124,18 +124,21 @@ par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "ibdc_inc",
        refline=1, efac = 0, rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", psize= 1.5, cex=1.2, 
        slab = NA, pch = 18, xlim = c(0.5, 12), cex.lab = 0.8, 
-       header = c("Bile duct cancer", ""))
+       header = c("Intrahepatic bile duct cancer", ""))
 
 
 # All digestive
-par(mfrow=c(1,2), mgp = c(2,0.5,0))
+#par(mfrow=c(1,2), mgp = c(2,0.5,0))
+par(mgp = c(2,0.5,0))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, subset = t2$subsite == "digestive_inc",
-       refline=1, efac = c(0, 1), rows = rowvec, ylim=c(0,35), xlab="HR [95% CI]", 
-       header = c("All digestive cancers", "HR [95% CI]"),
-       psize= 1.5, cex=0.8, slab = NA,
-       pch = 18, xlim = c(0, 2.3), 
+       refline=1, efac = c(0, 1), rows = rowvec, ylim=c(0,33), xlab="HR [95% CI]", 
+       header = c("Total digestive cancers", "HR [95% CI]"),
+       psize= 1.5, cex=0.8, 
+       slab = NA,
+       pch = 18, xlim = c(0, 2.2), top = 1,
        #alim = c(0,7),
-       cex.lab = 0.8)
+       cex.lab = 0.8
+       )
 
 text(0, rows.lev1, labs.lev1, cex = 0.8, pos = 4, font = 2)
 text(0.1, rows.lev2, labs.lev2, cex = 0.8, pos = 4)
