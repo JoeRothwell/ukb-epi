@@ -24,25 +24,35 @@ results <- lapply(ll1, "[", c("b", "ci.lb", "ci.ub", "I2", "QEp"))
 append.yn1 <- do.call(rbind, results) %>% as_tibble
 
 # Complex plot with spacings
+
 par(mar=c(5,4,1,2), mgp = c(2,0.5,0))
-li <- c(-2.1, -2.8)
+# Set position of rownames with li
+li <- c(-1.3, -1.9)
+cex1 <- 0.8
 forest(t2$hr, ci.lb = t2$ci.lower, ci.ub = t2$ci.upper, xlab = "Hazard ratio", pch = 18, 
-       rows = na.omit(ly$row.lev3), ylim = c(0, 90), alim = c(0, 2), efac = 0.5,
-       psize = 1.5, header = c("Subsite", "HR (95% CI)"), xlim = c(-4, 3.5),
-       ilab = df, cex = 0.7, slab = t2$subsite1,
+       rows = na.omit(ly$row.lev3), ylim = c(0, 90), alim = c(0, 2), 
+       efac = 0.5,
+       psize = 1.5, header = c("Subsite", "HR (95% CI)"), xlim = c(-3, 3.5),
+       ilab = df, cex = cex1, 
+       slab = t2$subsite1,
        ilab.pos = 4, ilab.xpos = li, refline = 1)
 
 # Add meta-analyses and text in a loop
-for(ind in 1:15) addpoly(ll1[[ind]], rev(rowvec)[ind], efac = 0.8, mlab = NA, cex = 0.7, col = "grey")
-text(li, 89, c("Cohort", "Group"), pos = 4, cex = 0.7)
+for(ind in 1:15) addpoly(ll1[[ind]], rev(rowvec)[ind], efac = 0.8, mlab = NA, cex = cex1, col = "grey")
+text(li, 89, c("Cohort", "Group"), pos = 4, cex = cex1)
+#text(-3, 31, "colon", pos = 4, cex = cex1)
+#text(-3, 49, "colon", pos = 4, cex = cex1)
+
 
 # Positions of p-het and I2 are 22 and 25
 I2s <- round(unlist(sapply(ll1, "[", 25)), 1)
 phets <- round(unlist(sapply(ll1, "[", 22)), 2)
-plabs <- function(x, y) as.expression(bquote("RE model"~I^2 * "=" ~ .(x)* "%" * ", p ="~ .(y) ))
+#plabs <- function(x, y) as.expression(bquote("RE model"~I^2 * "=" ~ .(x)* "%" * ", p ="~ .(y) ))
+plabs <- function(x, y) as.expression(bquote(I^2 * "=" ~ .(x)* "%" * ", p ="~ .(y) ))
 
 # Function name comes first in mapply (opposite to sapply)
-text(li[1], rev(rowvec), labels = mapply(plabs, I2s, phets), cex = 0.7, pos = 4)
+text(li[1], rev(rowvec), labels = mapply(plabs, I2s, phets), cex = cex1, pos = 4)
+
 
 
 # Basic plot, no spacing (not used)
@@ -74,28 +84,29 @@ results2 <- lapply(ll2, "[", c("b", "ci.lb", "ci.ub", "I2", "QEp"))
 age.append.yn1 <- do.call(rbind, results2) %>% as_tibble
 
 # Simple plot
-forest(t4$hr, ci.lb = t4$ci.lower, ci.ub = t4$ci.upper, pch = 18, psize = 1.5, slab = t4$subsite1, 
-       header = T, xlim = c(-3, 5), ilab.pos = 4, ilab.xpos = c(-0.8, -1.8), refline = 1)
+#forest(t4$hr, ci.lb = t4$ci.lower, ci.ub = t4$ci.upper, pch = 18, psize = 1.5, slab = t4$subsite1, 
+#       header = T, xlim = c(-3, 5), ilab.pos = 4, ilab.xpos = c(-0.8, -1.8), refline = 1)
 
 # Complex plot with spacings
 par(mar=c(5,4,1,2), mgp = c(2,0.5,0))
-li <- c(-0.8, -2.5)
+li <- c(-1.2, -2.5)
+cex1 <- 0.8
 forest(t4$hr, ci.lb = t4$ci.lower, ci.ub = t4$ci.upper, xlab = "Hazard ratio", pch = 18, 
        rows = na.omit(ly2$row.lev3), ylim = c(0, 64), efac = 0.5, psize = 1.5, 
-       header = c("Subsite", "HR (95% CI)"), xlim = c(-4, 4), ilab = df, cex = 0.7, 
+       header = c("Subsite", "HR (95% CI)"), xlim = c(-4, 4), ilab = df, cex = cex1, 
        slab = t4$subsite1, ilab.pos = 4, ilab.xpos = li, refline = 1)
 
 par("usr")
 
 # Add meta-analyses and text in a loop
-for(ind in 1:10) addpoly(ll2[[ind]], rev(rowvec)[ind], efac = 0.8, mlab = NA, cex = 0.7, col = "grey")
+for(ind in 1:10) addpoly(ll2[[ind]], rev(rowvec)[ind], efac = 0.8, mlab = NA, cex = cex1, col = "grey")
 
 I2s <- round(unlist(sapply(ll2, "[", 25)), 1)
 phets <- round(unlist(sapply(ll2, "[", 22)), 2)
-plabs <- function(x, y) as.expression(bquote("RE model"~I^2 * "=" ~ .(x)* "%" * "," ~ italic(P) ~ "=" ~ .(y) ))
-text(li[2], rev(rowvec), labels = mapply(plabs, I2s, phets), cex = 0.7, pos = 4)
+plabs <- function(x, y) as.expression(bquote(I^2 * "=" ~ .(x)* "%" * "," ~ italic(P) ~ "=" ~ .(y) ))
+text(li[2], rev(rowvec), labels = mapply(plabs, I2s, phets), cex = cex1, pos = 4)
 
-text(li, 63, c("Cohort", "Group"), pos = 4, cex = 0.7)
+text(li, 63, c("Cohort", "Group"), pos = 4, cex = cex1)
 
 
 
