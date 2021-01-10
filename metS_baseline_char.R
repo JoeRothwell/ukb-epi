@@ -24,17 +24,20 @@ lapply(dat, class)
 
 
 # For appendectomy paper
-dat <- read_dta("ukb_append_table1.dta")
+dat <- read_dta("ukb_append_table1_jan.dta")
 dat <- dat %>% select(-id) %>% 
   mutate_at(vars(colorectal_inc, alc_stat, smoke_stat, sex, bmi_cat, pa_met_cat, appendic,
                  appendic_y, appendic_o, education_cat), as.factor) %>%
+  #mutate_at(fct_collapse(pa_met_cat, 5 = c("1","2","3"))) %>%
   select(age_assess, appendic, appendic_y, appendic_o, sex, bmi_cat, height_m, smoke_stat, pa_met_cat, education_cat)
+
+dat$pa_met_cat <- fct_collapse(dat$pa_met_cat, A = c("1","2","3"))
 
 # Generate automatic summary
 sumtab <- qsummary(dat, numeric_summaries = list("Mean (SD)" = "~ mean_sd(%s)"),
                    n_perc_args = list(digits = 1, show_symbol = T))
 
 # Make grouped summary table
-dat %>% group_by(appendic) %>% summary_table(sumtab)
+dat %>% group_by(fct_rev(appendic)) %>% summary_table(sumtab)
 
 
