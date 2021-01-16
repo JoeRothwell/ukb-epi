@@ -16,15 +16,15 @@ snpdat <- left_join(snpdat, snps, by = "id") #%>%
 # mutate(RA_alternative = ifelse(A2 == as.character(Risk.Allele), 1, 0))
 
 # Get SNPs where the risk allele is the reference allele
-RA_altern <- snpdat$A2 == as.character(snpdat$Risk.Allele)
-table(RA_altern) # Ref allele is risk allele for 54
+RA_ref <- snpdat$A1 == as.character(snpdat$Risk.Allele)
+table(RA_ref) # Ref allele is risk allele for 71
 
 # Where the reference SNP is the risk, subtract the genotype from 2
 genmat.risk <- apply(genmat, 2, function(x) 2 - x)
 
 # Make copy of original genotype matrix and assign 2-x to TRUE cols
 genmat0 <- genmat
-genmat[, RA_altern] <- genmat.risk[, RA_altern]
+genmat[, RA_ref] <- genmat.risk[, RA_ref]
 
 # Multiply each column by the PRS-IV weight
 weightmat <- sweep(genmat, 2, snpdat$PRS.IV.Weight, "*")
