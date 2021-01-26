@@ -72,5 +72,8 @@ peddat <- peddat %>% slice(match(vec, id))
 peddat$PRS_crc <- rowSums(weightmat[, snpdat$Cancer == "Colon/rectum"], na.rm = T)
 peddat$PRS_pan <- rowSums(weightmat[, snpdat$Cancer == "Pancreas"], na.rm = T)
 
+# save to .rds
+saveRDS(peddat, "UKB_prs.rds")
+
 # write to a .dta
 write.dta(peddat, "UKB_PRS_CRC_panc_dos.dta")
