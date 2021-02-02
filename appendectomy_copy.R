@@ -19,8 +19,10 @@ mas <- t2 %>% group_by(subsite, group) %>% nest() %>%
 ll1 <- mas$mods
 
 # Extract data for table
-results <- lapply(ll1, "[", c("b", "ci.lb", "ci.ub", "I2", "QEp"))
-append.yn1 <- do.call(rbind, results) %>% as_tibble
+results <- lapply(ll1, "[", c("b", "ci.lb", "ci.ub", "se", "I2", "QEp"))
+append.yn1 <- do.call(rbind, results) %>% as.tibble() %>% bind_cols(mas[, 1:2])
+
+results1 <- map_df(ll1, tidy)
 
 # Complex plot with spacings
 
@@ -82,7 +84,7 @@ ll2 <- mas$mods
 # Extract data for table
 library(metafor)
 results2 <- lapply(ll2, "[", c("b", "ci.lb", "ci.ub", "I2", "QEp"))
-age.append.yn1 <- do.call(rbind, results2) %>% as_tibble
+age.append.yn1 <- do.call(rbind, results2) %>% as_tibble %>% bind_cols(mas[, 1:2])
 
 # Save at 11 x 7 in
 
@@ -112,6 +114,35 @@ text(li[2], rev(rowvec), labels = mapply(plabs, I2s, phets), cex = cex1, pos = 4
 text(li, 63, c("Cohort", "Group"), pos = 4, cex = cex1)
 
 
+# Heterogeneity tests for sex, age, colon vs rectal, proximal vs distal
+# Appendectomy Y/N
+results1 <- map_df(ll1, tidy)
+
+# Hetergeneity by sex
+crc <- rma(yi = estimate, sei = std.error, dat = results1, method="FE", subset = 2:3)
+col <- rma(yi = estimate, sei = std.error, dat = results1, method="FE", subset = 5:6)
+prox <- rma(yi = estimate, sei = std.error, dat = results1, method="FE", subset = 8:9)
+dist <- rma(yi = estimate, sei = std.error, dat = results1, method="FE", subset = 11:12)
+rect <- rma(yi = estimate, sei = std.error, dat = results1, method="FE", subset = 14:15)
+
+# Colon vs rectal, prox vs distal
+colrec <- rma(yi = estimate, sei = std.error, dat = results1, method="FE", subset = 4:13)
+proxdist <- rma(yi = estimate, sei = std.error, dat = results1, method="FE", subset = 7:10)
+
+# Age cateogories
+results3 <- map_df(ll2, tidy)
+crc1 <- rma(yi = estimate, sei = std.error, dat = results3, method="FE", subset = 1:2)
+col1 <- rma(yi = estimate, sei = std.error, dat = results3, method="FE", subset = 3:4)
+prox1 <- rma(yi = estimate, sei = std.error, dat = results3, method="FE", subset = 5:6)
+dist1 <- rma(yi = estimate, sei = std.error, dat = results3, method="FE", subset = 7:8)
+rect1 <- rma(yi = estimate, sei = std.error, dat = results3, method="FE", subset = 9:10)
+
+malist <- list(crc, col, prox, dist, rect, colrec, proxdist, crc1, col1, prox1, dist1, rect1)
+
+output <- lapply(malist, "[", c("QEp", "I2"))
+phets <- do.call(rbind, output)
+# Copy and paste output into appendectomy summary excel sheet
+# Note, only I2 for col vs rec and prox vs dist change if using FE instead of REL
 
 # Old: age at appendectomy, reference <20 group
 
