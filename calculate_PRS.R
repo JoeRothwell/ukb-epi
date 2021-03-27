@@ -41,6 +41,7 @@ write.dta(peddat1, "UKB_PRS_CRC_panc.dta")
 # Get df of SNPs and subset 
 library(snpStats)
 dosages <- read_tsv("ukb22828_125SNPs.traw")
+#dosages <- read_tsv("ukb22828_Bil_SNPs.traw")
 colnames(dosages)
 
 # Remove first 6 columns and 127 individuals and transpose
