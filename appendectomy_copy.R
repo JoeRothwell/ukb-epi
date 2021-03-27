@@ -8,9 +8,13 @@ t2 <- read_xlsx("CRC-appendectomy meta-analysis.xlsx") %>%
   mutate(std.err = ((ci.upper-ci.lower)/2)/qnorm(0.975))
 
 # Layout sheet used to calculate spacings, row positions and subset df
-ly <- read_xlsx("layout_appendix.xlsx", sheet = 3)
-rowvec <- c(-0.5,4.5,10.5, 17.5,22.5,28.5, 35.5,40.5,46.5, 53.5,58.5,64.5, 71.5,76.5,82.5)
-df <- data.frame(t2[, c(1,9)])
+ly <- read_xlsx("layout_appendix.xlsx", sheet = 7)
+
+# Get the vector of vertical positions of the 40 data points in the layout
+rowvec <- which(rev(ly$ma)) - 1
+# Subset a data frame of cohort and group labels
+df <- t2[, c("cohort", "group1")] %>% data.frame
+
 
 # Perform meta-analyses on groups with nest
 library(metafor)
@@ -25,38 +29,43 @@ append.yn1 <- do.call(rbind, results) %>% as.tibble() %>% bind_cols(mas[, 1:2])
 results1 <- map_df(ll1, tidy)
 
 # Complex plot with spacings
-
+# Points are determined by rows from ly. Subsite by t2, groups by df
 par(mar=c(5,4,1,2), mgp = c(2,0.5,0))
 # Set position of rownames with li
-li <- c(-1.3, -1.9)
+li <- c(-2, -1.5)
 cex1 <- 0.8
 forest(t2$hr, ci.lb = t2$ci.lower, ci.ub = t2$ci.upper, xlab = "Hazard ratio", pch = 18, 
-       rows = na.omit(ly$row.lev3), ylim = c(0, 90), alim = c(0, 2), 
+       rows = rev(which(rev(ly$row.lev3)))-1, ylim = c(0, 80), alim = c(0, 2), 
        efac = 0.3, #annosym = c(" (", ", ", ")"),
-       psize = 1.5, header = c("Subsite", "HR (95% CI)"), xlim = c(-3, 3.5),
-       ilab = df, cex = cex1, 
-       slab = t2$subsite1,
-       ilab.pos = 4, ilab.xpos = li, refline = 1)
+       psize = 1.5, header = c("Subsite and group", "HR (95% CI)"), xlim = c(-2.5, 3.5),
+       slab = NA, ilab = df[, 1], 
+       cex = cex1, ilab.pos = 4, ilab.xpos = li[2], refline = 1)
+
+text(-2.5, rev(which(rev(ly$labs.lev1))), na.omit(t2$subsite1), cex = cex1, pos = 4)
+text(-2.2, rev(which(rev(ly$row.lev2))), na.omit(t2$group1), cex = cex1, pos = 4)
 
 # Add meta-analyses and text in a loop
-for(ind in 1:15) addpoly(ll1[[ind]], rev(rowvec)[ind], efac = 0.8, mlab = NA, 
+for(ind in 1:15) addpoly(ll1[[ind]], rev(rowvec - 1)[ind], efac = 0.6, mlab = NA, 
                          #annosym = c(" (", ", ", ")"), 
                          cex = cex1, col = "grey")
-text(li, 89, c("Cohort", "Group"), pos = 4, cex = cex1)
-#text(-3, 31, "colon", pos = 4, cex = cex1)
-#text(-3, 49, "colon", pos = 4, cex = cex1)
-
 
 # Positions of p-het and I2 are 22 and 25
 I2s <- round(unlist(sapply(ll1, "[", 25)), 1)
 phets <- round(unlist(sapply(ll1, "[", 22)), 2)
-#plabs <- function(x, y) as.expression(bquote("RE model"~I^2 * "=" ~ .(x)* "%" * ", p ="~ .(y) ))
 plabs <- function(x, y) as.expression(bquote(I^2 * "=" ~ .(x)* "%" * ", P ="~ .(y) ))
 
 # Function name comes first in mapply (opposite to sapply)
-text(li[1], rev(rowvec), labels = mapply(plabs, I2s, phets), cex = cex1, pos = 4)
+text(li[2], rev(rowvec-1), labels = mapply(plabs, I2s, phets), cex = cex1, pos = 4)
 
-# Save at 15 x 7 inch landscape
+# Add background colour? (experimental)
+lim <- par("usr")
+plot.new()
+rect(lim[1], 70, lim[2], 88, col = "grey")
+axis(1) ## add axes back
+axis(2)
+box()  
+
+# Save at 13 x 5 inch landscape
 
 # Basic plot, no spacing (not used)
 par(mar=c(5,4,1,2))
@@ -71,10 +80,12 @@ t4 <- read_xlsx("CRC-appendectomy meta-analysis.xlsx", sheet = 3) %>%
   arrange(fct_inorder(subsite), fct_inorder(group), fct_inorder(cohort)) %>% 
   mutate(std.err = ((ci.upper-ci.lower)/2)/qnorm(0.975))
 
-rowvec <- c(-0.5,5.5,12.5, 18.5,25.5,31.5, 38.5,44.5,51.5, 57.5)
-ly2 <- read_xlsx("layout_appendix.xlsx", sheet = 6)
+# Get the vector of vertical positions of the 40 data points in the layout
+rowvec <- which(rev(ly2$ma)) - 1
+ly2 <- read_xlsx("layout_appendix.xlsx", sheet = 8)
 
-df <- data.frame(t4[, c(1,10)])
+#df <- data.frame(t4[, c(1,10)])
+df <- t2[, c("cohort", "group1")] %>% data.frame
 
 # Perform meta-analyses (only 13 due to non-estimable men in EPIC)
 mas <- t4 %>% group_by(subsite, group) %>% nest() %>% 
@@ -94,25 +105,34 @@ age.append.yn1 <- do.call(rbind, results2) %>% as_tibble %>% bind_cols(mas[, 1:2
 
 # Complex plot with spacings
 par(mar=c(5,4,1,2), mgp = c(2,0.5,0))
-li <- c(-1.2, -2.5)
+# Set li to determine the cohort labels and group labels
+li <- c(-2, -2.5)
 cex1 <- 0.8
 forest(t4$hr, ci.lb = t4$ci.lower, ci.ub = t4$ci.upper, xlab = "Hazard ratio", pch = 18, 
-       rows = na.omit(ly2$row.lev3), ylim = c(0, 64), efac = 0.5, psize = 1.5, 
-       header = c("Subsite", "HR (95% CI)"), xlim = c(-4, 4), ilab = df, cex = cex1, 
-       slab = t4$subsite1, ilab.pos = 4, ilab.xpos = li, refline = 1)
+       rows = rev(which(rev(ly2$row.lev3))) - 1,
+       #rows = na.omit(ly2$row.lev3), 
+       ylim = c(0, 60), efac = 0.5, psize = 1.5, 
+       header = c("Subsite and group", "HR (95% CI)"), xlim = c(-3, 4.5), 
+       slab = NA, ilab = df[, 1], 
+       cex = cex1, 
+       ilab.pos = 4, ilab.xpos = li[1], refline = 1)
 
 par("usr")
 
+text(-3, rev(which(rev(ly2$labs.lev1))), na.omit(t4$subsite1), cex = cex1, pos = 4)
+text(li[2], rev(which(rev(ly2$row.lev2))), na.omit(t4$group1), cex = cex1, pos = 4)
+
 # Add meta-analyses and text in a loop
-for(ind in 1:10) addpoly(ll2[[ind]], rev(rowvec)[ind], efac = 0.8, mlab = NA, cex = cex1, col = "grey")
+for(ind in 1:10) addpoly(ll2[[ind]], rev(rowvec - 1)[ind], efac = 0.8, mlab = NA, cex = cex1, col = "grey")
 
 I2s <- round(unlist(sapply(ll2, "[", 25)), 1)
 phets <- round(unlist(sapply(ll2, "[", 22)), 2)
 plabs <- function(x, y) as.expression(bquote(I^2 * "=" ~ .(x)* "%" * "," ~ italic(P) ~ "=" ~ .(y) ))
-text(li[2], rev(rowvec), labels = mapply(plabs, I2s, phets), cex = cex1, pos = 4)
+text(li[1], rev(rowvec - 1), labels = mapply(plabs, I2s, phets), cex = cex1, pos = 4)
 
-text(li, 63, c("Cohort", "Group"), pos = 4, cex = cex1)
+#text(li, 63, c("Cohort", "Group"), pos = 4, cex = cex1)
 
+# Save at 11x5 inch landscape
 
 # Heterogeneity tests for sex, age, colon vs rectal, proximal vs distal
 # Appendectomy Y/N
