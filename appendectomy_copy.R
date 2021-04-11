@@ -1,6 +1,6 @@
-library(gsheet)
 library(tidyverse)
 library(readxl)
+library(broom)
 
 ### Meta-analysis of 3 cohorts: CRC and appendectomy (Y/N)
 t2 <- read_xlsx("CRC-appendectomy meta-analysis.xlsx") %>% 
@@ -32,12 +32,12 @@ results1 <- map_df(ll1, tidy)
 # Points are determined by rows from ly. Subsite by t2, groups by df
 par(mar=c(5,4,1,2), mgp = c(2,0.5,0))
 # Set position of rownames with li
-li <- c(-2, -1.5)
+li <- c(-2, -1.9)
 cex1 <- 0.8
 forest(t2$hr, ci.lb = t2$ci.lower, ci.ub = t2$ci.upper, xlab = "Hazard ratio", pch = 18, 
        rows = rev(which(rev(ly$row.lev3)))-1, ylim = c(0, 80), alim = c(0, 2), 
-       efac = 0.3, #annosym = c(" (", ", ", ")"),
-       psize = 1.5, header = c("Subsite and group", "HR (95% CI)"), xlim = c(-2.5, 3.5),
+       efac = 0.3, #annosym = c(" (", "-", ")"),
+       psize = 1.5, header = c("Subsite and group", "HR (95% CI)"), xlim = c(-2.5, 3.7),
        slab = NA, ilab = df[, 1], 
        cex = cex1, ilab.pos = 4, ilab.xpos = li[2], refline = 1)
 
@@ -45,14 +45,14 @@ text(-2.5, rev(which(rev(ly$labs.lev1))), na.omit(t2$subsite1), cex = cex1, pos 
 text(-2.2, rev(which(rev(ly$row.lev2))), na.omit(t2$group1), cex = cex1, pos = 4)
 
 # Add meta-analyses and text in a loop
-for(ind in 1:15) addpoly(ll1[[ind]], rev(rowvec - 1)[ind], efac = 0.6, mlab = NA, 
-                         #annosym = c(" (", ", ", ")"), 
-                         cex = cex1, col = "grey")
+for(ind in 1:15) addpoly(ll1[[ind]], rev(rowvec - 1)[ind], annosym = c(" (", "-", ")"), 
+                         efac = 0.6, mlab = NA, cex = cex1, col = "grey")
+
 
 # Positions of p-het and I2 are 22 and 25
 I2s <- round(unlist(sapply(ll1, "[", 25)), 1)
 phets <- round(unlist(sapply(ll1, "[", 22)), 2)
-plabs <- function(x, y) as.expression(bquote(I^2 * "=" ~ .(x)* "%" * ", P ="~ .(y) ))
+plabs <- function(x, y) as.expression(bquote(I^2 * "=" ~ .(x)* "%" * "," ~ italic(P) ~ "=" ~ .(y) ))
 
 # Function name comes first in mapply (opposite to sapply)
 text(li[2], rev(rowvec-1), labels = mapply(plabs, I2s, phets), cex = cex1, pos = 4)
@@ -109,12 +109,11 @@ par(mar=c(5,4,1,2), mgp = c(2,0.5,0))
 li <- c(-2, -2.5)
 cex1 <- 0.8
 forest(t4$hr, ci.lb = t4$ci.lower, ci.ub = t4$ci.upper, xlab = "Hazard ratio", pch = 18, 
-       rows = rev(which(rev(ly2$row.lev3))) - 1,
-       #rows = na.omit(ly2$row.lev3), 
+       rows = rev(which(rev(ly2$row.lev3))) - 1, #rows = na.omit(ly2$row.lev3), 
        ylim = c(0, 60), efac = 0.5, psize = 1.5, 
-       header = c("Subsite and group", "HR (95% CI)"), xlim = c(-3, 4.5), 
+       header = c("Subsite and group", "HR (95% CI)"), xlim = c(-3, 4), 
        slab = NA, ilab = df[, 1], 
-       cex = cex1, 
+       cex = cex1, alim = c(0, 2),
        ilab.pos = 4, ilab.xpos = li[1], refline = 1)
 
 par("usr")

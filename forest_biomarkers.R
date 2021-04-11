@@ -1,4 +1,4 @@
-# Forest plots for digestive cancers manuscript
+# Forest plots for appendectomy and GI cancers manuscript
 
 library(readxl)
 library(tidyverse)
@@ -35,4 +35,52 @@ ggplot(t3, aes(x = estimate, y = fct_inorder(rev(group)),
         facet_grid(biomarker ~ ., scales = "free_y") +
         ggtitle("Biomarker measurements in appendectomy\nand non-appendectomy groups") +
         theme(axis.title.y =element_blank())
+
+# MetS-colorectal cancer and pancreatic cancer by PRS category
+
+t4 <- read_xlsx("appendix_biomarkers.xlsx", sheet = 3) %>% filter(inclusion == T)
+df <- data.frame(t4[, c(2,3)])
+
+par(mar=c(5,0,0,1))
+forest(x = t4$estimate, ci.ub = t4$ci.high, ci.lb = t4$ci.low, 
+       refline=1, efac = 0, xlab="HR [95% CI]", 
+       psize= 1.3, #digits = 3,
+       pch = 18, 
+       rows = c(17:0),
+       slab = t4$cancer, 
+       ilab = df,
+       ilab.xpos = c(-1.5, -0.5), ilab.pos = 4,
+       xlim = c(-3, 4.5), 
+       #header = c("Biomarker", "Scaled GM [95% CI]"),
+       cex=0.9)
+
+text(0.95, 56, "Appendectomy", cex = 0.9, pos = 4)
+
+par("usr")
    
+# With ggplot2 vertically
+library(ggplot2)
+ggplot(t4) + 
+        geom_hline(yintercept = 1, colour = "grey") +
+        geom_pointrange(aes(y=estimate, x= fct_inorder(prs.cat), shape = metS, 
+                                 ymin=ci.low, ymax=ci.high, group=metS), 
+                        position = position_dodge(width = 0.5)) +
+        theme_bw() + xlab("Polygenic risk score category") + 
+        ylab("Hazard ratio (95% CI)") +
+        facet_grid(. ~ cancer, scales = "free_x") +
+        labs(shape = "MetS definition") +
+        theme(legend.position = "bottom")
+
+# Horizontally
+ggplot(t4) + 
+        geom_pointrange(aes(x=estimate, y= fct_inorder(prs.cat), shape = metS, 
+                            xmin=ci.low, xmax=ci.high, group=metS), 
+                        position = position_dodge(width = 0.5)) +
+        scale_x_continuous(n.breaks = 6) +
+        geom_vline(xintercept = 1, colour = "grey") +
+        theme_bw() + ylab("Polygenic risk score category") + 
+        xlab("Hazard ratio (95% CI)") +
+        facet_grid(cancer ~ ., scales = "free_y") +
+        labs(shape = "MetS definition") +
+        theme(legend.position = "bottom") +
+        annotate("text", label = "n = 0.70", x = 2, y = 3, size = 3)
