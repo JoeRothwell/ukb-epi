@@ -37,5 +37,14 @@ egrep "ent:|diabet?_1" LOG_diab_PRS_bm.txt > diab_PRS_bm.txt
 egrep "ent:|diabet?_1|arm_1|CEP_1|IDF2_1|_scale" LOG_metS_PRS_adj.txt > metS_PRS_adj.txt
 egrep "failures|ent:|_It" LOG_metS_PRS_adj.txt
 
-egrep "ent:|diabet?_1|arm_1|CEP_1|IDF2_1|_scale" LOG_metS_PRS_adj.txt > metS_PRS_adj1.txt
-egrep "failures|ent:|_It" LOG_metS_PRS_adj.txt
+# Re-analysis April 2021 (diabetics not considered in definitions, not excluded)
+cat LOG_metS_crc.txt LOG_metS_GI.txt | \
+egrep "ent:|arm_1|CEP_1|IDF2_1|obes_1|hdl_1|hb_1|bp_1|tryg_1|alth_[123]" > metS_main.txt
+
+# Cases within 2 years excluded
+cat LOG_metS_crc_excl2yr.txt LOG_metS_GI_excl2yr.txt | \
+egrep "ent:|arm_1|CEP_1|IDF2_1" > metS_main_excl2yr.txt
+
+# PRS
+egrep "ent:|arm_1|CEP_1|IDF2_1" LOG_metS_PRS.txt > metS_PRS.txt
+egrep "failures|ent:|_It" LOG_metS_PRS.txt

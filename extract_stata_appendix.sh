@@ -1,5 +1,8 @@
 # Appendectomy, myopia and flu vaccine
-cd /Users/joe/Documents/Stata
+
+# Change to Stata working directory and change back
+cd ~/Documents/Stata
+#cd ~/ukb-epi
 
 # Appendectomy only, CRC, male and female
 egrep "appendic|CANCER" LOG_crc_appendectomy.txt | egrep -v "stcox"
