@@ -4,7 +4,7 @@ library(readxl)
 library(tidyverse)
 
 # March 2021: remove diabetes and pre-diabetes
-t2 <- read_xlsx("forest_data_metS.xlsx", sheet = 1) %>% filter(included == TRUE)
+t2 <- read_xlsx("forest_data_metS.xlsx", sheet = 5) %>% filter(included == TRUE)
 ly <- read_xlsx("forest_data_metS.xlsx", sheet = 2) %>% filter(inclusion1 == TRUE)
 
 # Layout for oesophageus and stomach only, no women:
@@ -25,7 +25,7 @@ par(mfrow=c(1,4))
 # Plot for rownames
 par(mar=c(5,0,0,1))
 limm <- nrow(ly)
-plot(1, type="n", axes = F, ann = F, ylim=c(0, limm + 2), xlim = c(0,10))
+plot(1, type="n", axes = F, ann = F, ylim=c(0, limm + 2), xlim = c(0, 10))
 text(3, rows.lev1, labs.lev1, cex = 1.5, pos = 4, font = 1)
 text(3.5, rows.lev2, labs.lev2, cex = 1.5, pos = 4)
 text(4, rows.lev3, labs.lev3, cex = 1.5, pos = 4)
@@ -39,12 +39,13 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline=1, efac = 0, rows = rowvec, ylim=c(0, limm + 2), 
        xlab="HR (95% CI)", annosym = c(" (", "-", ")"),
        psize= 1.6, cex=1.5, top = 2,
-       slab = NA, pch = 18, xlim = c(1, 2), 
+       slab = NA, pch = 18, xlim = c(1, 2.2), 
        cex.lab = 1, 
        header = c("Colorectal cancer", ""))
 # Number of cases
-text(2, c(4,8, limm), c("n = 1,441 cases", "n = 998 cases", "n = 2,439 cases"), cex = 1.5, pos = 2)
+text(2.2, c(4,8, limm), c("n = 1,441 cases", "n = 998 cases", "n = 2,439 cases"), cex = 1.5, pos = 2)
 
+# Colon cancer
 par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "colon_inc" & t2$analysis == "normal",
@@ -57,17 +58,18 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
 
 text(2.5, c(4,8, limm), c("n = 880 cases", "n = 726 cases", "n = 1,606 cases"), cex = 1.5, pos = 2)
 
+# Rectal cancer
 par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "rectal_inc" & t2$analysis == "normal",
        refline=1, efac = 0, rows = rowvec, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
        psize= 1.6, cex=1.5, 
-       slab = NA, pch = 18, xlim = c(0.5, 3), 
+       slab = NA, pch = 18, xlim = c(0.5, 2.6), 
        cex.lab = 1, top = 2,
        annosym = c(" (", "-", ")"),
        header = c("Rectal cancer", ""))
 
-text(3, c(4,8, limm), c("n = 561 cases", "n = 272 cases", "n = 563 cases"), cex = 1.5, pos = 2)
+text(2.6, c(4,8, limm), c("n = 561 cases", "n = 272 cases", "n = 563 cases"), cex = 1.5, pos = 2)
 
 # Now export to pdf with a width of 11x6 inches and crop in Word
 
@@ -112,11 +114,11 @@ par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "oesophsq_inc" & t2$analysis == "normal",
        refline = 1, efac = c(0, 0.5), rows = rowvec2, ylim=c(0, limm1 + 3), 
-       xlab="HR (95% CI)", psize= 1.6, cex=1.5, annosym = c(" (", "=", ")"),
+       xlab="HR (95% CI)", psize= 1.6, cex=1.5, annosym = c(" (", "-", ")"),
        slab = NA, pch = 18, xlim = c(0.8, 5), #alim = c(0, 3),
-       cex.lab = 1, header = c("squamous", ""))
+       cex.lab = 1, header = c("cell carcinoma", ""))
 par("usr")
-text(0, limm1 + 3, "Esophageal", pos = 4, font = 2, cex = 1.5)
+text(0, limm1 + 3, "Esophageal squamous", pos = 4, font = 2, cex = 1.5)
 text(5, limm1, "n = 95 cases", cex = 1.5, pos = 2)
 
 # Stomach cardia
@@ -124,23 +126,25 @@ par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "cardstomach_inc" & t2$analysis == "normal",
        refline=1, efac = c(0, 0.5), rows = rowvec2, ylim=c(0, limm1 + 3), xlab="HR (95% CI)", 
-       header = c("Stomach cardia", ""), annosym = c(" (", "-", ")"),
+       header = c("(Cardia)", ""), annosym = c(" (", "-", ")"),
        psize= 1.6, cex=1.5, slab = NA, pch = 18, xlim = c(0.8, 6),  #alim = c(0,3),
        cex.lab = 1)
+text(0.5, limm1 + 3, "Stomach cancer", pos = 4, font = 2, cex = 1.5)
 text(6, limm1, "n = 110 cases", cex = 1.5, pos = 2)
 
 #rowvec <- rowvec.reset
 par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "noncardstomach_inc" & t2$analysis == "normal",
-       refline=1, efac = c(0, 0.5), rows = rowvec2, ylim=c(0, limm1 + 3), xlab="HR (95% CI)", 
-       psize = 1.6, cex=1.5,
+       refline=1, efac = c(0, 0.5), rows = rowvec2, ylim=c(0, limm1 + 3), 
+       xlab="HR (95% CI)", psize = 1.6, cex=1.5,
        slab = NA, pch = 18, xlim = c(0.8, 7), #alim = c(0,3),
-       annosym = c(" (", ", ", ")"),
-       cex.lab = 1, header = c("Stomach non-cardia", ""))
+       annosym = c(" (", "-", ")"),
+       cex.lab = 1, header = c("(Non-cardia)", ""))
+text(0, limm1 + 3, "Stomach cancer", pos = 4, font = 2, cex = 1.5)
 text(7, limm1, "n = 72 cases", cex = 1.5, pos = 2)
 
-# Save as a pdf, portrait, 11.5 x 6 in
+# Save as a pdf, portrait, 11.5 x 5.5 in
 
 
 # HCC, pancreatic, IBDC
@@ -148,60 +152,63 @@ par(mfrow=c(1,4))
 
 # Plot for rownames
 par(mar=c(5,0,0,1))
-plot(1, type="n", axes = F, ann = F, ylim=c(0, limm + 2), xlim = c(0,10))
-text(3, rows.lev1, labs.lev1, cex = 1.5, pos = 4, font = 1)
-text(3.5, rows.lev2, labs.lev2, cex = 1.5, pos = 4)
-text(4, rows.lev3, labs.lev3, cex = 1.5, pos = 4)
-abline(h = limm + 1)
+plot(1, type="n", axes = F, ann = F, ylim=c(0, limm + 2), xlim = c(0, 10))
+text(3, rows.lev1-1, labs.lev1, cex = 1.5, pos = 4, font = 1)
+text(3.5, rows.lev2-1, labs.lev2, cex = 1.5, pos = 4)
+text(4, rows.lev3-1, labs.lev3, cex = 1.5, pos = 4)
+abline(h = limm)
 
 # Plot points with no rownames
 par(mar=c(5,0,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "pancreas_inc" & t2$analysis == "normal",
-       refline=1, efac = 0, rows = rowvec, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
-       psize= 1.6, cex=1.5, 
-       slab = NA, pch = 18, xlim = c(0.8, 4), #alim = c(0, 2.5), 
-       top = 2, annosym = c(" (", "-", ")"),
+       refline=1, efac = 0, rows = rowvec-1, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
+       psize= 1.6, cex=1.5, #top = 2, 
+       slab = NA, pch = 18, xlim = c(0.8, 4.5), #alim = c(0, 2.5), 
+       annosym = c(" (", "-", ")"),
        cex.lab = 1, header = c("Pancreatic cancer", ""))
-text(4, c(4,8, limm), c("n = 263 cases", "n = 200 cases", "n = 463 cases"), cex = 1.5, pos = 2)
+text(4.5, c(3, 7, limm-1), c("n = 263 cases", "n = 200 cases", "n = 463 cases"), cex = 1.5, pos = 2)
 
 rowvec2 <- rev(which(rev(ly$rowvec2)))
 par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "hcc_inc" & t2$analysis == "normal",
-       refline=1, efac = c(0, 0.5), rows = rowvec2, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
-       header = c("Hepatocellular carcinoma",""), top = 2,
+       refline=1, efac = c(0, 0.5), rows = rowvec2-1, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
+       header = c("carcinoma",""), #top = 2,
        annosym = c(" (", "-", ")"),
-       psize= 1.6, cex=1.5, slab = NA, pch = 18, xlim = c(0.8, 6), #alim = c(0,4),
+       psize = 1.6, cex = 1.5, slab = NA, pch = 18, xlim = c(0.8, 7.5), #alim = c(0,4),
        cex.lab = 1)
-text(6, limm, "n = 110 cases", cex = 1.5, pos = 2)
+text(0, limm + 2, "Hepatocellular", pos = 4, font = 2, cex = 1.5)
+text(7.5, limm-1, "n = 110 cases", cex = 1.5, pos = 2)
 
 par(mar=c(5,4,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "ibdc_inc" & t2$analysis == "normal",
-       refline=1, efac = 0, rows = rowvec2, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
+       refline=1, efac = 0, rows = rowvec2-1, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
        psize= 1.6, cex=1.5, 
-       slab = NA, pch = 18, xlim = c(0.5, 5), cex.lab = 1, top = 2,
+       slab = NA, pch = 18, xlim = c(0.5, 5), cex.lab = 1, #top = 2,
        annosym = c(" (", "-", ")"),
-       header = c("Bile duct cancer", ""))
-text(5, limm, "n = 103 cases", cex = 1.5, pos = 2)
+       header = c("bile duct cancer", ""))
+text(0.5, limm + 2, "Intrahepatic", pos = 4, font = 2, cex = 1.5)
+text(5, limm - 1, "n = 103 cases", cex = 1.5, pos = 2)
 
 
 # Save 11 x 6
 
 
 # All digestive
+dev.off()
 par(mar=c(3,4,0,1), mgp = c(2,0.5,0))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "digestive_inc" & t2$analysis == "normal",
        refline=1, efac = c(0, 1), rows = rowvec-1, ylim=c(0, limm + 1), xlab="HR (95% CI)", 
-       header = c("All digestive cancers", "HR (95% CI)"), 
-       top = 2, annosym = c(" (", ", ", ")"), alim = c(0.8, 1.6),
+       header = c("All gastrointestinal cancers", "HR (95% CI)"), 
+       top = 2, annosym = c(" (", "-", ")"), alim = c(0.8, 1.6),
        psize= 1.6, slab = NA, pch = 18, xlim = c(0, 2.3))
 
 text(0, rows.lev1-1, labs.lev1, pos = 4, font = 1)
 text(0.1, rows.lev2-1, labs.lev2, pos = 4)
 text(0.2, rows.lev3-1, labs.lev3, pos = 4)
 text(2.3, c(3,7, limm-1), c("n = 2,507 cases", "n = 1,594 cases", "n = 4,101 cases"), pos = 2)
-# Save at 7x5 inches
+# Save at 5x5 inches
 
