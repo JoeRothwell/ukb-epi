@@ -38,7 +38,7 @@ ggplot(t3, aes(x = estimate, y = fct_inorder(rev(group)),
 
 # MetS-colorectal cancer and pancreatic cancer by PRS category
 
-t4 <- read_xlsx("appendix_biomarkers.xlsx", sheet = 3) %>% filter(inclusion == T)
+t4 <- read_xlsx("appendix_biomarkers.xlsx", sheet = 4) %>% filter(inclusion == T)
 df <- data.frame(t4[, c(2,3)])
 
 par(mar=c(5,0,0,1))
@@ -67,9 +67,11 @@ ggplot(t4) +
                         position = position_dodge(width = 0.5)) +
         theme_bw() + xlab("Polygenic risk score category") + 
         ylab("Hazard ratio (95% CI)") +
+        ylim(0.2, 3.5) + scale_y_continuous(n.breaks = 6) +
         facet_grid(. ~ cancer, scales = "free_x") +
         labs(shape = "MetS definition") +
-        theme(legend.position = "bottom")
+        theme(legend.position = "bottom",
+              panel.grid.minor = element_blank())
 
 # Horizontally
 ggplot(t4) + 
@@ -82,5 +84,5 @@ ggplot(t4) +
         xlab("Hazard ratio (95% CI)") +
         facet_grid(cancer ~ ., scales = "free_y") +
         labs(shape = "MetS definition") +
-        theme(legend.position = "bottom") +
-        annotate("text", label = "n = 0.70", x = 2, y = 3, size = 3)
+        theme(legend.position = "bottom") #+
+        #annotate("text", label = "n = 0.70", x = 2, y = 3, size = 3)
