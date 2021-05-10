@@ -7,7 +7,7 @@ options(qwraps2_markup = "markdown")
 
 
 # For metS paper
-dat <- read_dta("ukb_metS_table1.dta")
+dat <- read_dta("ukb_metS_table3.dta")
 dat <- dat %>% select(-id) %>% 
   mutate_at(vars(digestive_inc, diabet, ever_horm, alc_stat, smoke_stat, sex, q4_depr, fh_crc, metS_harm, 
                  med_aspib, pre_diabet), as.factor) %>%
