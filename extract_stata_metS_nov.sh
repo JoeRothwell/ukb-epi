@@ -49,6 +49,18 @@ egrep "ent:|arm_1|CEP_1|IDF2_1" > metS_main_excl2yr.txt
 egrep "ent:|arm_1|CEP_1|IDF2_1" LOG_metS_PRS1.txt > metS_PRS1.txt
 egrep "failures|ent:|_It" LOG_metS_PRS1.txt
 
+# Re-analysis May 2021 adding medications to definitions
+cat LOG_metS_crc_med.txt LOG_metS_GI_med.txt | \
+egrep "ent:|arm_1|CEP_1|IDF2_1|obes_1|hdl_1|hb_1|bp_1|tryg_1|alth_[123]" > metS_main_med.txt
+
+# Cases within 2 years excluded
+cat LOG_metS_crc_excl2yr_med.txt LOG_metS_GI_excl2yr_med.txt | \
+egrep "ent:|arm_1|CEP_1|IDF2_1" > metS_excl2yr_med.txt
+
+# PRS
+egrep "ent:|arm_1|CEP_1|IDF2_1" LOG_metS_PRS_med.txt > metS_PRS_med.txt
+egrep "failures|ent:|_It" LOG_metS_PRS_med.txt
+
 
 # Thyroid cancer Therese
 egrep "ent:|arm_1|CEP_1|IDF2_1|obes_1|hdl_1|hb_1|bp_1|tryg_1|alth_[123]" LOG_metS_thyroid.txt > metS_thyroid.txt
