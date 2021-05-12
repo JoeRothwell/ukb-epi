@@ -57,6 +57,9 @@ forest(x = t4$estimate, ci.ub = t4$ci.high, ci.lb = t4$ci.low,
 text(0.95, 56, "Appendectomy", cex = 0.9, pos = 4)
 
 par("usr")
+
+t4 <- read_xlsx("appendix_biomarkers.xlsx", sheet = 5) %>% filter(inclusion == T)
+df <- data.frame(t4[, c(2,3)])
    
 # With ggplot2 vertically
 library(ggplot2)
