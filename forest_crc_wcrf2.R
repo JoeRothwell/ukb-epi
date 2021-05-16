@@ -92,7 +92,7 @@ forest(x = t2$hr, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        subset = t2$subsite == "Rectal",
        refline=1, efac = 0, rows = rowvec, ylim=c(0, limm + 2), 
        xlab="OR (95% CI)", annosym = c(" (", "-", ")"),
-       psize= 1.4, cex=1.5, top = 2,slab = NA, pch = 18, xlim = c(1, 3), 
+       psize= 1.4, cex=1.5, top = 2, slab = NA, pch = 18, xlim = c(1, 3), 
        cex.lab = 1, header = c("Rectal cancer", ""))
 # Number of cases
 text(1.7, 11, "N = 468", cex = 1.5, pos = 4)
@@ -109,8 +109,8 @@ forest(x = t3$hr, ci.ub = t3$ci.high, ci.lb = t3$ci.low,
        psize= 1.5, #cex=1.5,
        #col = c("red", "blue", "blue", "red", "blue", "blue"),
        top = 2,
-       slab = rep(c("         adj. score", "     Signature", "     Score"),2), 
-       pch = 18, #xlim = c(1, 2), 
+       slab = rep(c("         adj. for WCRF/AICR score", "     Metabolic signature", "     WCRF/AICR score"),2), 
+       pch = 18, xlim = c(-0.65, 1.7), 
        cex.lab = 1, header = c("Model", "OR (95% CI)"))
 
 par("usr")
