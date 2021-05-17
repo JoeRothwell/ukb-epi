@@ -71,9 +71,11 @@ ggplot(t4) +
         theme_bw() + xlab("Polygenic risk score category") + 
         ylab("Hazard ratio (95% CI)") +
         ylim(0.2, 3.5) + scale_y_continuous(n.breaks = 6) +
-        facet_grid(. ~ cancer, scales = "free_x") +
+        facet_wrap(. ~ cancer, scales = "free") +
+        #facet_grid(cancer ~ ., scales = "free_x") +
         labs(shape = "MetS definition") +
         theme(legend.position = "bottom",
+              panel.grid.major = element_blank(),
               panel.grid.minor = element_blank())
 
 # Horizontally
