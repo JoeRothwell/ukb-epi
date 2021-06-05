@@ -4,11 +4,11 @@ library(readxl)
 library(tidyverse)
 
 # March 2021: remove diabetes and pre-diabetes
-t2 <- read_xlsx("forest_data_metS.xlsx", sheet = 5) %>% filter(included == TRUE)
-ly <- read_xlsx("forest_data_metS.xlsx", sheet = 2) %>% filter(inclusion1 == TRUE)
+t2 <- read_xlsx("forest_data_metS.xlsx", sheet = 3) %>% filter(included == TRUE)
+ly <- read_xlsx("forest_data_metS.xlsx", sheet = 4) %>% filter(inclusion1 == TRUE)
 
 # Layout for oesophageus and stomach only, no women:
-ly1 <- read_xlsx("forest_data_metS.xlsx", sheet = 2) %>% filter(inclusion2 == TRUE)
+ly1 <- read_xlsx("forest_data_metS.xlsx", sheet = 4) %>% filter(inclusion2 == TRUE)
 
 # Set row vectors from layout sheet
 rowvec <- rev(which(rev(ly$rowvec)))
@@ -18,6 +18,8 @@ labs.lev3 <- na.omit(ly$labs.lev3)
 rows.lev1 <- rev(which(rev(ly$row.lev1)))
 rows.lev2 <- rev(which(rev(ly$row.lev2)))
 rows.lev3 <- rev(which(rev(ly$row.lev3)))
+
+jpeg("Figure2.jpg", units="in", width=11, height=6, res=300)
 
 # Four columns
 par(mfrow=c(1,4))
@@ -70,10 +72,10 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        header = c("Rectal cancer", ""))
 
 text(2.6, c(4,8, limm), c("n = 564 cases", "n = 291 cases", "n = 855 cases"), cex = 1.5, pos = 2)
-
+dev.off()
 # Now export to pdf with a width of 11x6 inches and crop in Word
 
-
+jpeg("Figure3.jpg", units="in", width=11.5, height=5.5, res=300)
 # Oesophageal and stomach cancer. Use layout with inclusion2 == T
 limm1 <- nrow(ly1)
 rowvec <- rev(which(rev(ly1$rowvec)))
@@ -149,8 +151,9 @@ text(0.5, limm1 + 3, "Stomach cancer", pos = 4, font = 2, cex = 1.5)
 text(7, limm1, "n = 74 cases", cex = 1.5, pos = 2)
 
 # Save as a pdf, portrait, 11.5 x 5.5 in
+dev.off()
 
-
+jpeg("Figure4.jpg", units="in", width=11.5, height=6, res=300)
 # HCC, pancreatic, IBDC
 par(mfrow=c(1,4))
 
@@ -198,10 +201,11 @@ text(5.5, limm - 1, "n = 108 cases", cex = 1.5, pos = 2)
 
 
 # Save 11 x 6
-
+dev.off()
 
 # All digestive
-dev.off()
+tiff("Figure1a.tiff", units="in", width=4, height=5, res=300)
+
 par(mar=c(3,4,0,1), mgp = c(2,0.5,0))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "digestive_inc" & t2$analysis == "normal",
@@ -215,5 +219,7 @@ text(0, rows.lev1-1, labs.lev1, pos = 4, font = 1)
 text(0.1, rows.lev2-1, labs.lev2, pos = 4)
 text(0.2, rows.lev3-1, labs.lev3, pos = 4)
 text(2.3, c(3,7, limm-1), c("n = 2,523 cases", "n = 1,715 cases", "n = 4,238 cases"), pos = 2)
-# Save at 5x5 inches
+# Save at 5x6 inches
+
+dev.off()
 
