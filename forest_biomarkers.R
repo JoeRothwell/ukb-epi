@@ -63,6 +63,9 @@ df <- data.frame(t4[, c(2,3)])
    
 # With ggplot2 vertically
 library(ggplot2)
+
+tiff("Figure5.tiff", units="in", width=5, height=3.5, res=300)
+
 ggplot(t4) + 
         geom_hline(yintercept = 1, colour = "grey") +
         geom_pointrange(aes(y=estimate, x= fct_inorder(prs.cat), shape = metS, 
@@ -70,13 +73,17 @@ ggplot(t4) +
                         position = position_dodge(width = 0.5)) +
         theme_bw() + xlab("Polygenic risk score category") + 
         ylab("Hazard ratio (95% CI)") +
-        ylim(0.2, 3.5) + scale_y_continuous(n.breaks = 6) +
+        #ylim(0.2, 3.5) + 
+        scale_y_continuous(limits = c(0.6, 2.8), n.breaks = 6) +
         facet_wrap(. ~ cancer, scales = "free") +
         #facet_grid(cancer ~ ., scales = "free_x") +
         labs(shape = "MetS definition") +
         theme(legend.position = "bottom",
-              panel.grid.major = element_blank(),
+              #strip.background = element_blank(),
+              #panel.grid.major = element_blank(),
               panel.grid.minor = element_blank())
+
+dev.off()
 
 # Horizontally
 ggplot(t4) + 
