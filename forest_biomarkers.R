@@ -64,7 +64,7 @@ df <- data.frame(t4[, c(2,3)])
 # With ggplot2 vertically
 library(ggplot2)
 
-tiff("Figure5.tiff", units="in", width=5, height=3.5, res=300)
+#tiff("Figure5.tiff", units="in", width=5, height=3.5, res=300)
 
 ggplot(t4) + 
         geom_hline(yintercept = 1, colour = "grey") +
@@ -83,7 +83,7 @@ ggplot(t4) +
               #panel.grid.major = element_blank(),
               panel.grid.minor = element_blank())
 
-dev.off()
+#dev.off()
 
 # Horizontally
 ggplot(t4) + 

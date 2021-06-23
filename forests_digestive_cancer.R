@@ -19,7 +19,7 @@ rows.lev1 <- rev(which(rev(ly$row.lev1)))
 rows.lev2 <- rev(which(rev(ly$row.lev2)))
 rows.lev3 <- rev(which(rev(ly$row.lev3)))
 
-jpeg("Figure2.jpg", units="in", width=11, height=6, res=300)
+jpeg("Figure2.jpg", units="in", width=11.5, height=6, res=300)
 
 # Four columns
 par(mfrow=c(1,4))
@@ -39,13 +39,16 @@ par(mar=c(5,0,0,1))
 forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low, 
        subset = t2$subsite == "colorectal_inc" & t2$analysis == "normal",
        refline=1, efac = 0, rows = rowvec, ylim=c(0, limm + 2), 
-       xlab="HR (95% CI)", annosym = c(" (", "-", ")"),
+       xlab="HR (95% CI)", 
+       #annosym = c(" (", "-", ")"),
+       annosym = c(" (", " to ", ")"),
        psize= 1.6, cex=1.5, top = 2,
        slab = NA, pch = 18, xlim = c(1, 2.2), 
        cex.lab = 1, cex.axis = 1.2,
        header = c("Colorectal cancer", ""))
 # Number of cases
-text(2.2, c(4,8, limm), c("n = 1,448 cases", "n = 1,007 cases", "n = 2,525 cases"), cex = 1.5, pos = 2)
+text(2.2, c(4,8, limm), c("n = 1,448 cases", "n = 1,007 cases", "n = 2,525 cases"), 
+     cex = 1.5, pos = 2)
 
 # Colon cancer
 par(mar=c(5,4,0,1))
@@ -55,7 +58,8 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        psize= 1.6, cex=1.5, cex.axis = 1.2,
        slab = NA, pch = 18, xlim = c(0.8, 2.5), 
        cex.lab = 1, top = 2,
-       annosym = c(" (", "-", ")"),
+       #annosym = c(" (", "-", ")"),
+       annosym = c(" (", " to ", ")"),
        header = c("Colon cancer", ""))
 
 text(2.5, c(4,8, limm), c("n = 884 cases", "n = 786 cases", "n = 1,670 cases"), cex = 1.5, pos = 2)
@@ -68,7 +72,8 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        psize= 1.6, cex=1.5, 
        slab = NA, pch = 18, xlim = c(0.5, 2.6), 
        cex.lab = 1, top = 2, cex.axis = 1.2,
-       annosym = c(" (", "-", ")"),
+       #annosym = c(" (", "-", ")"),
+       annosym = c(" (", " to ", ")"),
        header = c("Rectal cancer", ""))
 
 text(2.6, c(4,8, limm), c("n = 564 cases", "n = 291 cases", "n = 855 cases"), cex = 1.5, pos = 2)
@@ -103,7 +108,9 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        subset = t2$subsite == "oesophad_inc" & t2$analysis == "normal",
        refline=1, efac = c(0, 0.5), rows = rowvec1, ylim=c(0, limm1 + 3), 
        xlab="HR (95% CI)", cex.axis = 1.2,
-       header = c("adenocarcinoma", ""), annosym = c(" (", "-", ")"),
+       header = c("adenocarcinoma", ""), 
+       #annosym = c(" (", "-", ")"),
+       annosym = c(" (", " to ", ")"),
        psize= 1.6, cex=1.5, slab = NA, pch = 18, xlim = c(0.8, 5.5), #alim = c(0, 3),
        cex.lab = 1)
 text(0.5, limm1 + 3, "Esophageal", pos = 4, font = 2, cex = 1.5)
@@ -117,7 +124,9 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        subset = t2$subsite == "oesophsq_inc" & t2$analysis == "normal",
        refline = 1, efac = c(0, 0.5), 
        rows = rowvec2, ylim=c(0, limm1 + 3), 
-       xlab="HR (95% CI)", psize= 1.6, cex=1.5, annosym = c(" (", "-", ")"),
+       xlab="HR (95% CI)", psize= 1.6, cex=1.5, 
+       #annosym = c(" (", "-", ")"),
+       annosym = c(" (", " to ", ")"),
        slab = NA, pch = 18, xlim = c(0.8, 4), #alim = c(0, 3),
        cex.axis = 1.2,
        cex.lab = 1, header = c("cell carcinoma", ""))
@@ -144,7 +153,9 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline=1, efac = c(0, 0.5), rows = rowvec2, ylim=c(0, limm1 + 3), 
        xlab="HR (95% CI)", psize = 1.6, cex=1.5,
        slab = NA, pch = 18, xlim = c(0.8, 7), #alim = c(0,3),
-       annosym = c(" (", "-", ")"), cex.axis = 1.2,
+       #annosym = c(" (", "-", ")"), 
+       annosym = c(" (", " to ", ")"),
+       cex.axis = 1.2,
        cex.lab = 1, header = c("(Non-cardia)", ""))
 par("usr")
 text(0.5, limm1 + 3, "Stomach cancer", pos = 4, font = 2, cex = 1.5)
@@ -172,7 +183,9 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline=1, efac = 0, rows = rowvec-1, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
        psize= 1.6, cex=1.5, #top = 2, 
        slab = NA, pch = 18, xlim = c(0.8, 4.5), #alim = c(0, 2.5), 
-       annosym = c(" (", "-", ")"), cex.axis = 1.2,
+       #annosym = c(" (", "-", ")"), 
+       annosym = c(" (", " to ", ")"),
+       cex.axis = 1.2,
        cex.lab = 1, header = c("Pancreatic cancer", ""))
 text(4.5, c(3, 7, limm-1), c("n = 265 cases", "n = 213 cases", "n = 478 cases"), cex = 1.5, pos = 2)
 
@@ -182,7 +195,9 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        subset = t2$subsite == "hcc_inc" & t2$analysis == "normal",
        refline=1, efac = c(0, 0.5), rows = rowvec2-1, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
        header = c("carcinoma",""), #top = 2,
-       annosym = c(" (", "-", ")"), cex.axis = 1.2,
+       #annosym = c(" (", "-", ")"), 
+       annosym = c(" (", " to ", ")"),
+       cex.axis = 1.2,
        psize = 1.6, cex = 1.5, slab = NA, pch = 18, xlim = c(0.8, 7.5), #alim = c(0,4),
        cex.lab = 1)
 text(0, limm + 2, "Hepatocellular", pos = 4, font = 2, cex = 1.5)
@@ -194,7 +209,8 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline=1, efac = 0, rows = rowvec2-1, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
        psize= 1.6, cex=1.5, cex.axis = 1.2,
        slab = NA, pch = 18, xlim = c(0.5, 5.5), cex.lab = 1, #top = 2,
-       annosym = c(" (", "-", ")"),
+       #annosym = c(" (", "-", ")"),
+       annosym = c(" (", " to ", ")"),
        header = c("bile duct cancer", ""))
 text(0.5, limm + 2, "Intrahepatic", pos = 4, font = 2, cex = 1.5)
 text(5.5, limm - 1, "n = 108 cases", cex = 1.5, pos = 2)
@@ -212,7 +228,10 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline=1, efac = c(0, 1), rows = rowvec-1, 
        ylim=c(0, limm + 1), xlab="HR (95% CI)", 
        header = c("All Gastrointestinal Cancers", "HR (95% CI)"), 
-       top = 2, annosym = c(" (", "-", ")"), alim = c(0.8, 1.6),
+       top = 2, 
+       #annosym = c(" (", "-", ")"), 
+       annosym = c(" (", " to ", ")"),
+       alim = c(0.8, 1.6),
        psize= 1.6, slab = NA, pch = 18, xlim = c(0, 2.3))
 
 text(0, rows.lev1-1, labs.lev1, pos = 4, font = 1)
