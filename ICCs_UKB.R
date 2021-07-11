@@ -1,10 +1,10 @@
 # ICCs in UKB
 library(tidyverse)
 # Test with BMI. Variables needed: eID, sex, age_assess, 
-UKBss <- UKB_final %>% select(f.eid, f.21003.0.0, f.21003.1.0, f.21003.1.0, f.30770.0.0, f.30770.1.0, 
+UKBss <- UKB_final %>% select(f.eid, f.21003.0.0, f.21003.1.0, f.21003.2.0, f.30770.0.0, f.30770.1.0, 
                               f.21001.0.0, f.21001.1.0, f.21001.2.0, f.31.0.0)
 
-saveRDS(UKBss, file = "UKB_for_ICC.rds")
+saveRDS(UKBss, file = "ukb_icc.rds")
 
 # Translation of ICC_metS.do into R
 ukb <- readRDS(file = "UKB_for_ICC.rds")
