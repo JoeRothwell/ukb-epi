@@ -66,6 +66,13 @@ library(ggplot2)
 
 #tiff("Figure5.tiff", units="in", width=5, height=3.5, res=300)
 
+library(facetscales)
+#https://stackoverflow.com/questions/51735481/ggplot2-change-axis-limits-for-each-individual-facet-panel
+labs.x <- list(
+        "Colorectal cancer" = scale_x_discrete(labels = c("High\nN = 835", "Medium\nN = 1410", "Low\nN = 261")),
+        "Pancreatic cancer" = scale_x_discrete(labels = c("High\nN = 136", "Medium\nN = 294", "Low\nN = 38"))
+)
+
 ggplot(t4) + 
         geom_hline(yintercept = 1, colour = "grey") +
         geom_pointrange(aes(y=estimate, x= fct_inorder(prs.cat), shape = metS, 
@@ -77,7 +84,8 @@ ggplot(t4) +
         scale_y_continuous(limits = c(0.6, 2.8), n.breaks = 6) +
         facet_wrap(. ~ cancer, scales = "free") +
         #facet_grid(cancer ~ ., scales = "free_x") +
-        labs(shape = "MetS definition") +
+        labs(shape = "Metabolic syndrome definition") +
+        facet_grid_sc(cols = vars(cancer), scales = list(x = labs.x)) +
         theme(legend.position = "bottom",
               #strip.background = element_blank(),
               #panel.grid.major = element_blank(),
