@@ -37,7 +37,7 @@ ggplot(t3, aes(x = estimate, y = fct_inorder(rev(group)),
         theme(axis.title.y =element_blank())
 
 # MetS-colorectal cancer and pancreatic cancer by PRS category
-
+# With metafor (not used)
 t4 <- read_xlsx("appendix_biomarkers.xlsx", sheet = 4) %>% filter(inclusion == T)
 df <- data.frame(t4[, c(2,3)])
 
@@ -61,7 +61,7 @@ par("usr")
 t4 <- read_xlsx("appendix_biomarkers.xlsx", sheet = 5) %>% filter(inclusion == T)
 df <- data.frame(t4[, c(2,3)])
    
-# With ggplot2 vertically
+# With ggplot2 vertically. Theme modified for CGH resubmission
 library(ggplot2)
 
 #tiff("Figure5.tiff", units="in", width=5, height=3.5, res=300)
@@ -74,26 +74,35 @@ labs.x <- list(
 )
 
 ggplot(t4) + 
-        geom_hline(yintercept = 1, colour = "grey") +
-        geom_pointrange(aes(y=estimate, x= fct_inorder(prs.cat), shape = metS, 
+        geom_hline(yintercept = 1, colour = "grey60", linetype = "dashed") +
+        geom_pointrange(aes(y=estimate, x= fct_inorder(prs.cat), colour = metS,
                                  ymin=ci.low, ymax=ci.high, group=metS), 
                         position = position_dodge(width = 0.5)) +
-        theme_bw() + xlab("Polygenic risk score category") + 
+        theme_minimal() + xlab("Polygenic risk score category") + 
         ylab("Hazard ratio (95% CI)") +
         #ylim(0.2, 3.5) + 
         scale_y_continuous(limits = c(0.6, 2.8), n.breaks = 6) +
+        #scale_x_discrete(labels = c("High PRS\nCategory", "Medium PRS\nCategory", 
+                                    #"Low PRS\nCategory")) +
+        scale_colour_manual(values = c("blue", "darkblue", "brown")) +
         facet_wrap(. ~ cancer, scales = "free") +
         #facet_grid(cancer ~ ., scales = "free_x") +
         labs(shape = "Metabolic syndrome definition") +
         facet_grid_sc(cols = vars(cancer), scales = list(x = labs.x)) +
         theme(legend.position = "bottom",
+              panel.spacing = unit(1, "lines"),
+              strip.text = element_text(size = 10),
               #strip.background = element_blank(),
-              #panel.grid.major = element_blank(),
-              panel.grid.minor = element_blank())
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank(),
+              axis.ticks = element_line()) +
+        # Add vertical axis to 2nd facet (see SO answer)
+        annotate("segment", x=-Inf, xend=Inf, y=-Inf, yend=-Inf, size = 1) +
+        annotate("segment", x=-Inf, xend=-Inf, y=-Inf, yend=Inf, size = 1)
 
 #dev.off()
 
-# Horizontally
+# Horizontally (not used)
 ggplot(t4) + 
         geom_pointrange(aes(x=estimate, y= fct_inorder(prs.cat), shape = metS, 
                             xmin=ci.low, xmax=ci.high, group=metS), 
