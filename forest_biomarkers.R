@@ -75,9 +75,9 @@ labs.x <- list(
 
 ggplot(t4) + 
         geom_hline(yintercept = 1, colour = "grey60", linetype = "dashed") +
-        geom_pointrange(aes(y=estimate, x= fct_inorder(prs.cat), colour = metS,
+        geom_pointrange(aes(y=estimate, x = fct_inorder(prs.cat), colour = metS,
                                  ymin=ci.low, ymax=ci.high, group=metS), 
-                        position = position_dodge(width = 0.5)) +
+                        position = position_dodge(width = 0.5), shape = 16) +
         theme_minimal() + xlab("Polygenic risk score category") + 
         ylab("Hazard ratio (95% CI)") +
         #ylim(0.2, 3.5) + 
@@ -87,7 +87,7 @@ ggplot(t4) +
         scale_colour_manual(values = c("blue", "darkblue", "brown")) +
         facet_wrap(. ~ cancer, scales = "free") +
         #facet_grid(cancer ~ ., scales = "free_x") +
-        labs(shape = "Metabolic syndrome definition") +
+        labs(colour = "Metabolic syndrome definition") +
         facet_grid_sc(cols = vars(cancer), scales = list(x = labs.x)) +
         theme(legend.position = "bottom",
               panel.spacing = unit(1, "lines"),
