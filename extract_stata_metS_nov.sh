@@ -66,3 +66,7 @@ egrep "ent:|arm_1|CEP_1|IDF2_1|obes_1|hdl_1|hb_1|bp_1|tryg_1|alth_[123]" LOG_met
 
 # Thyroid cancer Therese
 egrep "ent:|arm_1|CEP_1|IDF2_1|obes_1|hdl_1|hb_1|bp_1|tryg_1|alth_[123]" LOG_metS_thyroid.txt > metS_thyroid.txt
+
+# Gastrointestinal cancers by smoking status
+egrep "ent:|arm_1|CEP_1|IDF2_1|obes_1|hdl_1|hb_1|bp_1|tryg_1|alth_[123]" LOG_metS_GI_smoke.txt
+
