@@ -40,8 +40,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        subset = t2$subsite == "colorectal_inc" & t2$analysis == "normal",
        refline=1, efac = 0, rows = rowvec, ylim=c(0, limm + 2), 
        xlab="HR (95% CI)", 
-       #annosym = c(" (", "-", ")"),
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"),
        psize= 1.6, cex=1.5, top = 2,
        slab = NA, pch = 18, xlim = c(1, 2.2), 
        cex.lab = 1, cex.axis = 1.2,
@@ -58,8 +57,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        psize= 1.6, cex=1.5, cex.axis = 1.2,
        slab = NA, pch = 18, xlim = c(0.8, 2.5), 
        cex.lab = 1, top = 2,
-       #annosym = c(" (", "-", ")"),
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"),
        header = c("Colon cancer", ""))
 
 text(2.5, c(4,8, limm), c("n = 884 cases", "n = 786 cases", "n = 1,670 cases"), cex = 1.5, pos = 2)
@@ -72,8 +70,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        psize= 1.6, cex=1.5, 
        slab = NA, pch = 18, xlim = c(0.5, 2.6), 
        cex.lab = 1, top = 2, cex.axis = 1.2,
-       #annosym = c(" (", "-", ")"),
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"),
        header = c("Rectal cancer", ""))
 
 text(2.6, c(4,8, limm), c("n = 564 cases", "n = 291 cases", "n = 855 cases"), cex = 1.5, pos = 2)
@@ -109,8 +106,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline=1, efac = c(0, 0.5), rows = rowvec1, ylim=c(0, limm1 + 3), 
        xlab="HR (95% CI)", cex.axis = 1.2,
        header = c("adenocarcinoma", ""), 
-       #annosym = c(" (", "-", ")"),
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"),
        psize= 1.6, cex=1.5, slab = NA, pch = 18, xlim = c(0.8, 5.5), #alim = c(0, 3),
        cex.lab = 1)
 text(0.5, limm1 + 3, "Esophageal", pos = 4, font = 2, cex = 1.5)
@@ -125,8 +121,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline = 1, efac = c(0, 0.5), 
        rows = rowvec2, ylim=c(0, limm1 + 3), 
        xlab="HR (95% CI)", psize= 1.6, cex=1.5, 
-       #annosym = c(" (", "-", ")"),
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"),
        slab = NA, pch = 18, xlim = c(0.8, 4), #alim = c(0, 3),
        cex.axis = 1.2,
        cex.lab = 1, header = c("cell carcinoma", ""))
@@ -153,8 +148,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline=1, efac = c(0, 0.5), rows = rowvec2, ylim=c(0, limm1 + 3), 
        xlab="HR (95% CI)", psize = 1.6, cex=1.5,
        slab = NA, pch = 18, xlim = c(0.8, 7), #alim = c(0,3),
-       #annosym = c(" (", "-", ")"), 
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"), 
        cex.axis = 1.2,
        cex.lab = 1, header = c("(Non-cardia)", ""))
 par("usr")
@@ -183,8 +177,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline=1, efac = 0, rows = rowvec-1, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
        psize= 1.6, cex=1.5, #top = 2, 
        slab = NA, pch = 18, xlim = c(0.8, 4.5), #alim = c(0, 2.5), 
-       #annosym = c(" (", "-", ")"), 
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"), 
        cex.axis = 1.2,
        cex.lab = 1, header = c("Pancreatic cancer", ""))
 text(4.5, c(3, 7, limm-1), c("n = 265 cases", "n = 213 cases", "n = 478 cases"), cex = 1.5, pos = 2)
@@ -195,8 +188,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        subset = t2$subsite == "hcc_inc" & t2$analysis == "normal",
        refline=1, efac = c(0, 0.5), rows = rowvec2-1, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
        header = c("carcinoma",""), #top = 2,
-       #annosym = c(" (", "-", ")"), 
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"), 
        cex.axis = 1.2,
        psize = 1.6, cex = 1.5, slab = NA, pch = 18, xlim = c(0.8, 7.5), #alim = c(0,4),
        cex.lab = 1)
@@ -209,8 +201,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        refline=1, efac = 0, rows = rowvec2-1, ylim=c(0, limm + 2), xlab="HR (95% CI)", 
        psize= 1.6, cex=1.5, cex.axis = 1.2,
        slab = NA, pch = 18, xlim = c(0.5, 5.5), cex.lab = 1, #top = 2,
-       #annosym = c(" (", "-", ")"),
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"),
        header = c("bile duct cancer", ""))
 text(0.5, limm + 2, "Intrahepatic", pos = 4, font = 2, cex = 1.5)
 text(5.5, limm - 1, "n = 108 cases", cex = 1.5, pos = 2)
@@ -219,7 +210,7 @@ text(5.5, limm - 1, "n = 108 cases", cex = 1.5, pos = 2)
 # Save 11 x 6
 dev.off()
 
-# All digestive
+# All GI cancers. mgp increases space between axis and ticks
 tiff("Figure1a.tiff", units="in", width=4, height=5, res=300)
 
 par(mar=c(3,4,0,1), mgp = c(2,0.5,0))
@@ -229,8 +220,7 @@ forest(x = t2$estimate, ci.ub = t2$ci.high, ci.lb = t2$ci.low,
        ylim=c(0, limm + 1), xlab="HR (95% CI)", 
        header = c("All Gastrointestinal Cancers", "HR (95% CI)"), 
        top = 2, 
-       #annosym = c(" (", "-", ")"), 
-       annosym = c(" (", " to ", ")"),
+       annosym = c(" (", "-", ")"), 
        alim = c(0.8, 1.6),
        psize= 1.6, slab = NA, pch = 18, xlim = c(0, 2.3))
 
