@@ -69,8 +69,8 @@ library(ggplot2)
 library(facetscales)
 #https://stackoverflow.com/questions/51735481/ggplot2-change-axis-limits-for-each-individual-facet-panel
 labs.x <- list(
-        "Colorectal cancer" = scale_x_discrete(labels = c("High\nN = 835", "Medium\nN = 1410", "Low\nN = 261")),
-        "Pancreatic cancer" = scale_x_discrete(labels = c("High\nN = 136", "Medium\nN = 294", "Low\nN = 38"))
+        "Colorectal cancer" = scale_x_discrete(labels = c("High\nn = 835", "Medium\nn = 1410", "Low\nn = 261")),
+        "Pancreatic cancer" = scale_x_discrete(labels = c("High\nn = 136", "Medium\nn = 294", "Low\nn = 38"))
 )
 
 ggplot(t4) + 
