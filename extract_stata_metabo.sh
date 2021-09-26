@@ -24,3 +24,10 @@ egrep "id " LOG_ICC_bm.txt | egrep -v "Number of groups" > ICC_bm.txt
 
 # ICCs (fasting)
 egrep "id " LOG_ICC_metabo_fast.txt | egrep -v "Number of groups" > ICC_168metab_fast.txt
+
+# Amino acids, case-control study matched 1:5
+egrep "ent:|ala|gl|his|leu|iso|val |phe|tyr " LOG_aminoacid_case_control.txt
+egrep "ent:|ala|gl|his|leu|iso|val_|phe|tyr" LOG_aminoacid_case_control_cat.txt
+
+# Trend test
+egrep "ent:|ala_|gln_|gly_|his_|iso_|leu_|val_|phe_|tyr_" LOG_aminoacid_case_control_trend.txt
