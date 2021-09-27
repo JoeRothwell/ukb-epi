@@ -1,3 +1,5 @@
+# Meta-analyses of UK Biobank, EPIC and E3N data for the CRC-appendectomy project
+
 library(tidyverse)
 library(readxl)
 library(broom)

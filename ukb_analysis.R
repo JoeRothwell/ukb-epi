@@ -1,4 +1,4 @@
-# Preliminary analysis of UKB data (data and method from Neil)
+# Preliminary analysis of UKB data (data and method from Neil). Warning: old code no longer used
 library(haven)
 ukb <- read_dta("D://ukb_summanalytical2017.dta") #original data
 ukb1 <- read_dta("D://ukb_cox_analyses_2017.dta") #renamed and recoded for cox model

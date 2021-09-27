@@ -1,5 +1,7 @@
-# Forest plots for digestive cancers manuscript
+# Forest plots for MetS-digestive cancers manuscript (note: oesophageal cancer and 
+# stomach cancer in forests_oesoph_stomach_cancer.R)
 # Read data from first and layout from second sheet
+
 library(readxl)
 library(tidyverse)
 

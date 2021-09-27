@@ -1,4 +1,4 @@
-# Forest plots for digestive cancers manuscript
+# Forest plots for digestive cancers manuscript (same as forests_digestive_cancer.R but with different style plots)
 # Read data from first and layout from second sheet
 
 # Adjusted to put "to" in CIs

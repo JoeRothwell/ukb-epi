@@ -1,3 +1,5 @@
+# Heterogeneity tests for CRC-appendectomy project
+
 library(tidyverse)
 library(readxl)
 library(broom)

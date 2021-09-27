@@ -1,4 +1,5 @@
-# Calculate PRS
+# Calculate polygenic risk scores for CRC and pancreatic cancers in UK Biobank
+
 library(tidyverse)
 library(haven)
 library(foreign)

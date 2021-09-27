@@ -1,4 +1,4 @@
-# Forest plots for appendectomy and GI cancers manuscript
+# Plots for biomarkers and polygenic risk scores for metabolic syndrome and appendectomy projects
 
 library(readxl)
 library(tidyverse)
