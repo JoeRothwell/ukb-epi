@@ -3,9 +3,10 @@
 library(tidyverse)
 library(readxl)
 library(broom)
+library(metafor)
 
-trace(addpoly.default, edit=TRUE)
-# Make changes to lines 175 and 176
+# Change code for RR and CI format (No longer needed in development version of metafor)
+#trace(addpoly.default, edit=TRUE)
 
 ### Meta-analysis of 3 cohorts: CRC and appendectomy (Y/N)
 t2 <- read_xlsx("CRC-appendectomy meta-analysis.xlsx") %>% 
@@ -32,11 +33,14 @@ results1 <- map_df(ll1, tidy)
 
 # Forest plot. Points are determined by rows from ly. Subsite by t2, groups by df
 par(mar=c(5,4,1,2), mgp = c(2,0.5,0))
+#par(mar=c(5,4,1,2))
 # Set position of rownames with li
 li <- c(-2, -1.9)
 cex1 <- 0.8
 
-tiff("Figure1.tiff", units="in", width=5, height=13, res=300)
+#tiff("Figure1.tiff", units="in", width=5, height=13, res=300)
+png("Figure1.png", units="in", width=5, height=13, res=300)
+svg("Figure1.svg", width=5, height=13)
 forest(t2$hr, ci.lb = t2$ci.lower, ci.ub = t2$ci.upper, xlab = "Hazard ratio", pch = 18, 
        rows = rev(which(rev(ly$row.lev3)))-1, ylim = c(0, 80), alim = c(0, 2), 
        efac = 0, annosym = c(" (", "-", ")"),
@@ -115,6 +119,7 @@ cex1 <- 0.8
 
 # png for insertion into supplemental data
 png(filename = "Figure_2.png", width = 6, height = 11, units = "in", res = 300)
+svg("Figure2.svg", width=6, height=11)
 forest(t4$hr, ci.lb = t4$ci.lower, ci.ub = t4$ci.upper, xlab = "Hazard ratio", pch = 18, 
        rows = rev(which(rev(ly2$row.lev3))) - 1, #rows = na.omit(ly2$row.lev3), 
        ylim = c(0, 60), efac = 0, psize = 1.5, 
