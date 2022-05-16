@@ -45,7 +45,7 @@ dat %>% group_by(fct_rev(appendic)) %>% summary_table(sumtab)
 
 
 # For amino acids paper. Read data and convert where necessary to factor
-dat <- read_dta("ukb_aminoacid_table1.dta") %>% select(-id) %>% 
+dat <- read_dta("ukb_aminoacid_table2.dta") %>% select(-id) %>% 
   mutate_at(vars(colorectal_inc, alc_stat, smoke_stat, sex, oc_ever, pa_met_cat,
                education_cat), as.factor)
 
