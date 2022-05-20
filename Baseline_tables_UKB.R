@@ -46,15 +46,12 @@ dat %>% group_by(fct_rev(appendic)) %>% summary_table(sumtab)
 
 # For amino acids paper. Read data and convert where necessary to factor
 dat <- read_dta("ukb_aminoacid_table2.dta") %>% select(-id) %>% 
-  mutate_at(vars(colorectal_inc, alc_stat, smoke_stat, sex, oc_ever, pa_met_cat, ever_horm,
+  mutate_at(vars(colorectal_inc, alc_stat, smoke_stat, sex, oc_ever, pa_met_cat,
                education_cat), as.factor)
 
 # Collapse PA 2 and 3 to get "moderately inactive" (low, low medium, high medium, high)
 # UK Biobank categories were:
 dat$pa_met_cat <- fct_collapse(dat$pa_met_cat, A = c("2","3"))
-
-# Collapse educational levels to get technical professional school, secondary school, HE/Uni, not specified
-dat$education_cat <- fct_collapse(dat$education_cat, sec.school = c("2", "3"), NS = c("1", "9"))
 
 # Check classes
 lapply(dat, class)
@@ -65,10 +62,5 @@ sumtab <- qsummary(dat, numeric_summaries = list("Mean (SD)" = "~ mean_sd(%s)"),
 
 # Make grouped summary table
 dat %>% summary_table(sumtab)
-
-# Female only summaries obtained manually
-library(janitor)
-tabyl(dat[dat$sex == 0, ], ever_horm)
-tabyl(dat[dat$sex == 0, ], oc_ever)
 
 
