@@ -241,3 +241,12 @@ text(7, limm1, "n = 74 cases", cex = 1.5, pos = 2)
 
 # Save as a pdf, portrait, 11.5 x 5.5 in
 dev.off()
+
+
+# Extra heterogeneity test
+hrs <- c(1.180178, 1.163811)
+seis = c(0.0636241, 0.0873542)
+
+ma <- rma(hrs, sei = seis, method="REML")
+ma$QEp
+
