@@ -33,8 +33,15 @@ egrep "ent:|ala|gl|his|leu|iso|val_|phe|tyr" LOG_aminoacid_case_control_cat.txt
 egrep "ent:|ala_|gln_|gly_|his_|iso_|leu_|val_|phe_|tyr_" LOG_aminoacid_case_control_trend.txt
 
 # Update 2022
+
 # Amino acids, all CRC subsites (updated after update to England follow-up). Note isoleucine now ile
 egrep "ent:|ala|gl|his|leu|ile| val|phe|tyr" LOG_crc_amino.txt
 # Exclude early diagnoses (no exclusions and 2-year lag)
 egrep "ent:|ala|gl|his|leu|ile| val|phe|tyr" LOG_crc_amino_lag.txt
 egrep "failures" LOG_crc_amino_lag.txt
+
+# Categorical and trend test
+egrep "ent:|ala|Igl|his|ile|leu|val|phe|tyr" LOG_crc_amino_cat.txt
+egrep "ent:|ala_|gln_|gly_|his_|ile_|leu_|val_|phe_|tyr_" LOG_crc_amino_trend.txt
+
+egrep "ent:|ala|gln|gly|his|ile|leu| val|phe|tyr" LOG_crc_amino_sex2022.txt
