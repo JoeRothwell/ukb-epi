@@ -6,7 +6,7 @@ egrep "ent:|ala|gl|his|leu| iso| val|phe|tyr" LOG_crc_amino_fast2021a.txt > CRC_
 
 # Categorical ref Q1
 #egrep "ent:|ala|Igl|his|leu|iso|val|phe|tyr" LOG_CRC_amino_cat2021.txt > CRC_amino_cat.txt
-egrep "ent:|ala|Igl|his|iso|leu|val|phe|tyr" LOG_crc_amino_cat_fast2021a.txt
+egrep "ent:|ala|Igl|his|iso|leu|val|phe|tyr" LOG_crc_amino_cat1.txt
 
 # Trend test (same model but without i. in Stata)
 egrep "ent:|ala_|gln_|gly_|his_|iso_|leu_|val_|phe_|tyr_" LOG_crc_amino_trend2021a.txt
