@@ -44,4 +44,8 @@ egrep "failures" LOG_crc_amino_lag.txt
 egrep "ent:|ala|Igl|his|ile|leu|val|phe|tyr" LOG_crc_amino_cat.txt
 egrep "ent:|ala_|gln_|gly_|his_|ile_|leu_|val_|phe_|tyr_" LOG_crc_amino_trend.txt
 
+# Sensitivity analysis sources of animal protein
 egrep "ent:|ala|gln|gly|his|ile|leu| val|phe|tyr" LOG_crc_amino_sex2022.txt
+
+# Sensitivity analysis sources of animal protein
+egrep "ent:|ala|gl|his|leu|ile| val|phe|tyr" LOG_crc_amino_animal_protein.txt
