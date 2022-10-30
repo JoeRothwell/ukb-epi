@@ -46,7 +46,7 @@ dat %>% group_by(fct_rev(appendic)) %>% summary_table(sumtab)
 
 # For amino acids paper. Read data and convert where necessary to factor
 dat <- read_dta("ukb_aminoacid_table2.dta") %>% select(-id) %>% 
-  mutate_at(vars(colorectal_inc, alc_stat, smoke_stat, sex, oc_ever, pa_met_cat,
+  mutate_at(vars(colorectal_inc, alc_stat, smoke_stat, sex, oc_ever, pa_met_cat, ever_horm,
                education_cat), as.factor)
 
 # Collapse PA 2 and 3 to get "moderately inactive" (low, low medium, high medium, high)
@@ -62,5 +62,5 @@ sumtab <- qsummary(dat, numeric_summaries = list("Mean (SD)" = "~ mean_sd(%s)"),
 
 # Make grouped summary table
 dat %>% summary_table(sumtab)
-
-
+# Group by cases and non-cases
+dat %>% group_by(colorectal_inc) %>% summary_table(sumtab)
