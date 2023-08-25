@@ -9,6 +9,9 @@ cd ../..
 cd home2/DATA_UKBB/PRS_pour_Joe/1_Final_PRS_Data/
 ls -l
 
+# Update March 2023. Address is now
+/home2/DATA_UKBB/1_Analysis/PRS_pour_Joe
+
 # Home directory on the server
 cd home1/users/rothwell
 
