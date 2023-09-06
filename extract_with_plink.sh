@@ -1,0 +1,176 @@
+# Email from Mojgan 26 Jan 2021
+
+#Comme tu m'as demandé, j'ai mis une petite explication aussi sur l'extraction des snps. 
+# Dans le dossier : 
+/home2/DATA_UKBB/PRS_pour_Joe/2_Scripts
+#tu trouves :
+extract_with_plink.txt
+#mes explications et un exemple de la ligne de commande que j'ai utilisé pour extraire les snps.
+
+merge_traw_files.py
+# c'est un programme en python que j'ai fait pour merger les extraits et avoir les 125 snps 
+# (avec header) dans un seul fichier. J'ai mis la ligne de commande pour lancer ce code aussi en
+# haut du programme.
+
+# Update 6/9/2023: location is now /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/2_Scripts
+
+
+
+#-----------------------------
+
+#To extract from plink2, at the first time you have to be sure that you already installed plink2.
+#At the second time, please separat the snps in different files : 
+#like in '/home2/DATA_UKBB/PRS_pour_#Joe/0_Extracted_SNPs'
+
+#And now you can use the commande line to extract your files and have the outputs in .bgen and .traw #format : (like in '/home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_format')
+#The commande line for chromosome 11 is (c11):
+
+plink2  --bgen  /home2/DATA_UKBB/imputed_files/ukb22828_c11_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/imputed_files/ukb22828_c11_b0_v3.sample  --extract   /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/SNP_chr11.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_format/ukb22828_c11_b0_v3_extracted_pgen    
+
+#Please note that u have to use the commande line for each chromosome separately, one by one.
+
+
+### Extract SNPs for Bilirubin study (disconnect from server first)
+
+# First upload the list of SNPs as a single text file made from the original Excel file (from Mac local drive)
+scp /Users/joe/SNP_Bilirubin.txt rothwell@193.52.231.13:/home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs
+ssh 193.52.231.13 -l rothwell
+#R0th!94GHz$
+
+# Check file is there
+ls /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs
+cat /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/SNP_Bilirubin.txt
+
+# Put SNP names in a file for each chromosome
+cd /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/
+sed -n '1,9p' SNP_Bilirubin.txt > SNP_Bil_chr1.txt
+sed -n '10,18p' SNP_Bilirubin.txt > SNP_Bil_chr2.txt
+sed -n '19,26p' SNP_Bilirubin.txt > SNP_Bil_chr3.txt
+sed -n '27,32p' SNP_Bilirubin.txt > SNP_Bil_chr4.txt
+sed -n '33,35p' SNP_Bilirubin.txt > SNP_Bil_chr5.txt
+sed -n '36,45p' SNP_Bilirubin.txt > SNP_Bil_chr6.txt
+sed -n '46,49p' SNP_Bilirubin.txt > SNP_Bil_chr7.txt
+sed -n '50,54p' SNP_Bilirubin.txt > SNP_Bil_chr8.txt
+sed -n '55,58p' SNP_Bilirubin.txt > SNP_Bil_chr9.txt
+sed -n '59,64p' SNP_Bilirubin.txt > SNP_Bil_chr10.txt
+sed -n '65,71p' SNP_Bilirubin.txt > SNP_Bil_chr11.txt
+sed -n '72,82p' SNP_Bilirubin.txt > SNP_Bil_chr12.txt
+sed -n '83,84p' SNP_Bilirubin.txt > SNP_Bil_chr14.txt
+sed -n '85,87p' SNP_Bilirubin.txt > SNP_Bil_chr15.txt
+sed -n '88,93p' SNP_Bilirubin.txt > SNP_Bil_chr16.txt
+sed -n '93,103p' SNP_Bilirubin.txt > SNP_Bil_chr17.txt
+sed -n '104,110p' SNP_Bilirubin.txt > SNP_Bil_chr19.txt
+sed -n '111,113p' SNP_Bilirubin.txt > SNP_Bil_chr20.txt
+sed -n '114,116p' SNP_Bilirubin.txt > SNP_Bil_chr22.txt
+
+# Extract chromosome by chromosome. In inputed_files every chromosome has a .bgen 
+# and .sample file
+# From https://www.cog-genomics.org/plink/2.0/input#pgen
+# format is: --bgen <filename> <REF/ALT mode> ['snpid-chr']
+
+# Make a new directory to write the output files to
+#mkdir /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili
+
+plink2  --bgen  /home2/DATA_UKBB/imputed_files/ukb22828_c4_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/imputed_files/ukb22828_c4_b0_v3.sample  --extract   /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/SNP_Bil_chr4.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c4_b0_v3_Bilirubin_extracted_pgen
+
+# --keep-allele-order no longer has any effect according to output
+
+# Check contents of bgen_bili
+ls /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili
+
+
+# Command to extract SNPs. Change chromosome number and repeat. Takes some time.
+plink2  --bgen  /home2/DATA_UKBB/imputed_files/ukb22828_c5_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/imputed_files/ukb22828_c5_b0_v3.sample  --extract   /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/SNP_Bil_chr5.txt  --export  A-transpose  --make-pgen  --out   /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c5_b0_v3_Bilirubin_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/imputed_files/ukb22828_c15_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/imputed_files/ukb22828_c15_b0_v3.sample  --extract   /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/SNP_Bil_chr15.txt  --export  A-transpose  --make-pgen  --out   /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c15_b0_v3_Bilirubin_extracted_pgen
+
+
+# Once extracted, merge the traws with the python script
+python /home2/DATA_UKBB/PRS_pour_Joe/2_Scripts/merge_traw_files.py   /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/  /home2/DATA_UKBB/PRS_pour_Joe/1_Final_PRS_Data/ukb22828_Bil_SNPs.traw
+
+# Check file is there
+ls /home2/DATA_UKBB/PRS_pour_Joe/1_Final_PRS_Data
+
+# Concatenate .pvar files to get ref and alternative alleles
+cd /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili
+cat *.pvar
+
+#-----------------------------
+
+### Extract updated CRC SNPs for Neil 6/9/2023
+
+(disconnect from server first)
+
+# Upload the list of SNPs as a single text file made from the original Excel file (this time from Windows local drive)
+
+# From the Windows command line, navigate to the location of the file to be uploaded (in this case C:Users:Rothwell)
+pscp.exe -scp SNP_CRC2.txt rothwell@193.52.231.13:/home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs
+
+scp C:/SNP_CRC2.txt rothwell@193.52.231.13:/home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs
+# Enter password R0th!94GHz$
+
+# Connect to server here without Putty
+ssh 193.52.231.13 -l rothwell
+# R0th!94GHz$
+
+# Check file is there
+ls /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs
+cat /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_CRC2.txt
+
+# Put SNP names in a file for each chromosome. 1,9p specifies the line number in the file (use Excel file to get these)
+cd /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs
+sed -n '1,14p' SNP_CRC2.txt > SNP_crc2_chr1.txt
+sed -n '15,22p' SNP_CRC2.txt > SNP_crc2_chr2.txt
+sed -n '23,35p' SNP_CRC2.txt > SNP_crc2_chr3.txt
+sed -n '36,41p' SNP_CRC2.txt > SNP_crc2_chr4.txt
+sed -n '42,50p' SNP_CRC2.txt > SNP_crc2_chr5.txt
+sed -n '51,72p' SNP_CRC2.txt > SNP_crc2_chr6.txt
+sed -n '73,80p' SNP_CRC2.txt > SNP_crc2_chr7.txt
+sed -n '81,88p' SNP_CRC2.txt > SNP_crc2_chr8.txt
+sed -n '89,95p' SNP_CRC2.txt > SNP_crc2_chr9.txt
+sed -n '96,108p' SNP_CRC2.txt > SNP_crc2_chr10.txt
+sed -n '109,118p' SNP_CRC2.txt > SNP_crc2_chr11.txt
+sed -n '119,135p' SNP_CRC2.txt > SNP_crc2_chr12.txt
+sed -n '136,144p' SNP_CRC2.txt > SNP_crc2_chr13.txt
+sed -n '145,153p' SNP_CRC2.txt > SNP_crc2_chr14.txt
+sed -n '154,161p' SNP_CRC2.txt > SNP_crc2_chr15.txt
+sed -n '162,166p' SNP_CRC2.txt > SNP_crc2_chr16.txt
+sed -n '167,172p' SNP_CRC2.txt > SNP_crc2_chr17.txt
+sed -n '173,174p' SNP_CRC2.txt > SNP_crc2_chr18.txt
+sed -n '175,181p' SNP_CRC2.txt > SNP_crc2_chr19.txt
+sed -n '182,197p' SNP_CRC2.txt > SNP_crc2_chr20.txt
+sed -n '198p' SNP_CRC2.txt > SNP_crc2_chr21.txt
+sed -n '199,204p' SNP_CRC2.txt > SNP_crc2_chr22.txt
+sed -n '205p' SNP_CRC2.txt > SNP_crc2_chrX.txt
+
+# Extract chromosome by chromosome. In inputed_files every chromosome has a .bgen 
+# and .sample file
+# From https://www.cog-genomics.org/plink/2.0/input#pgen
+# format is: --bgen <filename> <REF/ALT mode> ['snpid-chr']
+
+# Make a new directory to write the output files to
+mkdir /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_crc2
+
+# Extract SNPs with the following code
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c1_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c1_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr1.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c1_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c2_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c2_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr2.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c2_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c3_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c3_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr3.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c3_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c4_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c4_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr4.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c4_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c5_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c5_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr5.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c5_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c6_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c6_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr6.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c6_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c7_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c7_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr7.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c7_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c8_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c8_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr8.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c8_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c9_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c9_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr9.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c9_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c10_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c10_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr10.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c10_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c11_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c11_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr11.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c11_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c12_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c12_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr12.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c12_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c13_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c13_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr13.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c13_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c14_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c14_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr14.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c14_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c15_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c15_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr15.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c15_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c16_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c16_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr16.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c16_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c17_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c17_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr17.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c17_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c18_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c18_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr18.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c18_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c19_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c19_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr19.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c19_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c20_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c20_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr20.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c20_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c21_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c21_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr21.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c21_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c22_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_c22_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chr22.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_c22_b0_v3_crc2_extracted_pgen
+plink2  --bgen  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_cX_b0_v3.bgen   ref-first   --sample  /home2/DATA_UKBB/0_Data/1_Imputed_files/1_Raw_data/ukb22828_cX_b0_v3.sample  --extract   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_crc2_chrX.txt  --export  A-transpose   --keep-allele-order  --make-pgen  --out   /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili/ukb22828_cX_b0_v3_crc2_extracted_pgen

@@ -12,6 +12,9 @@ merge_traw_files.py
 # (avec header) dans un seul fichier. J'ai mis la ligne de commande pour lancer ce code aussi en
 # haut du programme.
 
+# Update 6/9/2023: location is now /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/2_Scripts
+
+
 
 #-----------------------------
 
@@ -29,7 +32,7 @@ plink2  --bgen  /home2/DATA_UKBB/imputed_files/ukb22828_c11_b0_v3.bgen   ref-fir
 
 ### Extract SNPs for Bilirubin study (disconnect from server first)
 
-# First upload the list of SNPs as a single text file made from the original Excel file
+# First upload the list of SNPs as a single text file made from the original Excel file (from Mac local drive)
 scp /Users/joe/SNP_Bilirubin.txt rothwell@193.52.231.13:/home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs
 ssh 193.52.231.13 -l rothwell
 #R0th!94GHz$
@@ -90,3 +93,51 @@ ls /home2/DATA_UKBB/PRS_pour_Joe/1_Final_PRS_Data
 # Concatenate .pvar files to get ref and alternative alleles
 cd /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs/bgen_bili
 cat *.pvar
+
+#-----------------------------
+
+### Extract updated CRC SNPs for Neil 6/9/2023
+
+(disconnect from server first)
+
+# Upload the list of SNPs as a single text file made from the original Excel file (this time from Windows local drive)
+
+# From the Windows command line, navigate to the location of the file to be uploaded (in this case C:Users:Rothwell)
+pscp.exe -scp SNP_CRC2.txt rothwell@193.52.231.13:/home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs
+
+scp C:/SNP_CRC2.txt rothwell@193.52.231.13:/home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs
+# Enter password R0th!94GHz$
+
+# Connect to server here without Putty
+ssh 193.52.231.13 -l rothwell
+#R0th!94GHz$
+
+# Check file is there
+ls /home2/DATA_UKBB/PRS_pour_Joe/0_Extracted_SNPs
+cat /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs/SNP_CRC2.txt
+
+# Put SNP names in a file for each chromosome. 1,9p specifies the line number in the file (use Excel file to get these)
+cd /home2/DATA_UKBB/1_Analysis/PRS_pour_Joe/0_Extracted_SNPs
+sed -n '1,14p' SNP_CRC2.txt > SNP_crc2_chr1.txt
+sed -n '15,22p' SNP_CRC2.txt > SNP_crc2_chr2.txt
+sed -n '23,35p' SNP_CRC2.txt > SNP_crc2_chr3.txt
+sed -n '36,41p' SNP_CRC2.txt > SNP_crc2_chr4.txt
+sed -n '42,50p' SNP_CRC2.txt > SNP_crc2_chr5.txt
+sed -n '51,72p' SNP_CRC2.txt > SNP_crc2_chr6.txt
+sed -n '73,80p' SNP_CRC2.txt > SNP_crc2_chr7.txt
+sed -n '81,88p' SNP_CRC2.txt > SNP_crc2_chr8.txt
+sed -n '89,95p' SNP_CRC2.txt > SNP_crc2_chr9.txt
+sed -n '96,108p' SNP_CRC2.txt > SNP_crc2_chr10.txt
+sed -n '109,118p' SNP_CRC2.txt > SNP_crc2_chr11.txt
+sed -n '119,135p' SNP_CRC2.txt > SNP_crc2_chr12.txt
+sed -n '136,144p' SNP_CRC2.txt > SNP_crc2_chr13.txt
+sed -n '145,153p' SNP_CRC2.txt > SNP_crc2_chr14.txt
+sed -n '154,161p' SNP_CRC2.txt > SNP_crc2_chr15.txt
+sed -n '162,166p' SNP_CRC2.txt > SNP_crc2_chr16.txt
+sed -n '167,172p' SNP_CRC2.txt > SNP_crc2_chr17.txt
+sed -n '173,174p' SNP_CRC2.txt > SNP_crc2_chr18.txt
+sed -n '175,181p' SNP_CRC2.txt > SNP_crc2_chr19.txt
+sed -n '182,197p' SNP_CRC2.txt > SNP_crc2_chr20.txt
+sed -n '198p' SNP_CRC2.txt > SNP_crc2_chr21.txt
+sed -n '199,204p' SNP_CRC2.txt > SNP_crc2_chr22.txt
+sed -n '205p' SNP_CRC2.txt > SNP_crc2_chrX.txt
